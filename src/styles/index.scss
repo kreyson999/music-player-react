@@ -1,0 +1,23 @@
+:root {
+  --light-gray-color: #c1c1c1;
+  --dark-gray-color: #3f3f3f;
+  --primary-blue-color: #0066ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
