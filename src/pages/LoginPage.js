@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../contexts/AuthContext'
 import Email from '../components/Login/Email'
 import LoginHome from '../components/Login/LoginHome'
 import Register from '../components/Login/Register'
@@ -9,6 +11,8 @@ import '../styles/LoginPage.scss'
 
 function LoginPage() {
   const [currentPage, setCurrentPage] = useState(LOGIN_PAGES.home)
+  const currentUser = useAuth()
+  const navigate = useNavigate()
 
   const getCurrentPage = () => {
     switch (currentPage) {
@@ -20,6 +24,12 @@ function LoginPage() {
         return <LoginHome setCurrentPage={setCurrentPage}/>
     }
   }
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/')
+    }
+  })
 
   return (
     <div className='login__container'>

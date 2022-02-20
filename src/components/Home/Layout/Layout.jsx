@@ -1,7 +1,19 @@
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+
+import { useAuth } from '../../../contexts/AuthContext'
 import './Layout.scss'
 
 const Layout = () => {
+  const currentUser = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login')
+    }
+  })
+
   return ( 
     <>
       <nav className='navbar'>
