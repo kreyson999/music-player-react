@@ -18,10 +18,6 @@ export function AuthProvider({ children }) {
     return unsubscribe
   }, [])
 
-  useEffect(() => {
-    console.log(currentUser, 'authContext')
-  }, [currentUser])
-
   return (
     <AuthContext.Provider value={currentUser}>
       {children}

@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC6M0HPAnlW5WrIsc_AdssbSSeanY_2ZTw",
-  authDomain: "music-player-react-6ef87.firebaseapp.com",
-  projectId: "music-player-react-6ef87",
-  storageBucket: "music-player-react-6ef87.appspot.com",
-  messagingSenderId: "396699242474",
-  appId: "1:396699242474:web:1346de1f3e6f1f1e48ac93"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

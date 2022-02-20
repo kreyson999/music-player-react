@@ -18,7 +18,6 @@ const Email = ({setCurrentPage}) => {
     e.preventDefault()
     try {
       const result = await signIn(email, password)
-      console.log(result)
     } catch (error) {
       console.log(error)
     }
