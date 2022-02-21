@@ -10,10 +10,17 @@ import { LOGIN_PAGES } from '../helpers/LoginHelper'
 import '../styles/LoginPage.scss'
 
 function LoginPage() {
-  const [currentPage, setCurrentPage] = useState(LOGIN_PAGES.home)
   const currentUser = useAuth()
   const navigate = useNavigate()
-
+  
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/')
+    }
+  })
+  
+  const [currentPage, setCurrentPage] = useState(LOGIN_PAGES.home)
+  
   const getCurrentPage = () => {
     switch (currentPage) {
       case LOGIN_PAGES.email:
@@ -24,12 +31,6 @@ function LoginPage() {
         return <LoginHome setCurrentPage={setCurrentPage}/>
     }
   }
-
-  useEffect(() => {
-    if (currentUser) {
-      navigate('/')
-    }
-  })
 
   return (
     <div className='login__container'>

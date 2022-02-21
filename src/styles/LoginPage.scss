@@ -26,6 +26,11 @@
   &__form {
     display: flex;
     flex-direction: column;
+    &__error {
+      color: red;
+      margin-top: 0.15rem;
+      font-size: 0.9rem;
+    }
     &__label {
       font-weight: bold;
       margin-top: 0.75rem;
