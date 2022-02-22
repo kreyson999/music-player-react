@@ -46,16 +46,10 @@ const Register = ({setCurrentPage}) => {
     e.preventDefault()
     const isValidated = validateForm()
     if (!isValidated) return
-    try {
-      await signUp(email, password)
-    } catch (error) {
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          setLoginError('Podany e-mail jest już w użyciu!')
-          break; 
-        default:
-          setLoginError('Wystąpił niezidentifikowany problem z logowaniem. Spróbuj później!')
-      }
+    // signUp user and create his document
+    const result = await signUp(name, email, password)
+    if (result !== true) {
+      setLoginError(result)
     }
   }
 

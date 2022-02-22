@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../../contexts/AuthContext'
+import { UserProvider } from '../../../contexts/UserContext';
+import ProfileButton from '../ProfileButton/ProfileButton';
 import './Layout.scss'
 
 const Layout = () => {
@@ -25,7 +27,7 @@ const Layout = () => {
   }
 
   return ( 
-    <>
+    <UserProvider>
       <nav className={`navbar ${isSearchBarOpen ? 'navbar--searchbaropen' : ''}`}>
         <div className="navbar__logo">
           <img src='/assets/logo.svg' alt='LOGO'/>
@@ -36,12 +38,13 @@ const Layout = () => {
         <div className='navbar__buttons'>
           <button 
           onClick={handleSearchBar}
-          className='navbar__buttons__iconbutton'>
+          className='navbar__buttons__iconbutton navbar__buttons__iconbutton--mobile-only'>
             <img src={isSearchBarOpen ? 'assets/close.svg' : 'assets/search.svg'} alt={isSearchBarOpen ? 'Close Menu' : 'Open Search'}/>
           </button>
-          <button onClick={handleMenu} className='navbar__buttons__iconbutton navbar__buttons__iconbutton--hide'>
+          <button onClick={handleMenu} className='navbar__buttons__iconbutton navbar__buttons__iconbutton--hide navbar__buttons__iconbutton--mobile-only'>
             <img src={isMenuOpen ? 'assets/close.svg' : 'assets/menu.svg'} alt={isSearchBarOpen ? 'Close Menu' : 'Open Menu'}/>
           </button>
+          <ProfileButton/>
         </div>
       </nav>
       <div className='page__body'>
@@ -64,13 +67,21 @@ const Layout = () => {
             <img src='assets/right_icon.svg' alt='Left Icon'/>
           </button>
         </div>
-        <div className='footer__progressbar'>
+        <div className='footer__timeline'>
           <span>0:00</span>
-          <progress max={100} value={60}></progress>
+          <div className='footer__timeline__progressbar'>
+            <div 
+            style={{
+              width: `60%`
+            }}
+            className='footer__timeline__progressbar__progress'>
+              <div className='footer__timeline__progressbar__progress__circle'></div>
+            </div>
+          </div>
           <span>3:33</span>
         </div>
       </footer>
-    </>
+    </UserProvider>
   );
 }
  
