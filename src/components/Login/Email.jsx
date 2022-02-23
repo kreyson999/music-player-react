@@ -37,19 +37,9 @@ const Email = ({setCurrentPage}) => {
     e.preventDefault()
     const isValidated = validateForm()
     if (!isValidated) return
-    try {
-      await signIn(email, password)
-    } catch (error) {
-      switch (error.code) {
-        case 'auth/wrong-password':
-          setLoginError('Podane hasło jest nieprawidłowe.')
-          break;
-        case 'auth/user-not-found':
-          setLoginError('Podany użytkownik nie znajduje się w naszej bazie danych!')
-          break;    
-        default:
-          setLoginError('Wystąpił niezidentifikowany problem z logowaniem. Spróbuj później!')
-      }
+    const result = await signIn(email, password)
+    if (result !== true) {
+      setLoginError(result)
     }
   }
 
