@@ -17,7 +17,7 @@ function LoginPage() {
     if (currentUser) {
       navigate('/')
     }
-  })
+  }, [currentUser, navigate])
   
   const [currentPage, setCurrentPage] = useState(LOGIN_PAGES.home)
   

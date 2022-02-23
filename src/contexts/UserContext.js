@@ -13,14 +13,17 @@ export function UserProvider({ children }) {
   const user = useAuth()
 
   useEffect(() => {
+    let mounted = true
     async function getUserData() {
-      if (user !== undefined) {
+      if (user !== null) {
         const data = await getUser(user.uid)
-        console.log(data)
-        setUserData(data)
+        if (mounted) {
+          setUserData(data)
+        }
       }
     }
     getUserData()
+    return () => mounted = false
   }, [user])
 
   return (

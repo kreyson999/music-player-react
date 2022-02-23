@@ -8,10 +8,12 @@ const LoginHome = ({setCurrentPage}) => {
 
   const loginWithGoogle = async (e) => {
     e.preventDefault()
+    let mounted = true
     const result = await signInWithGoogle()
-    if (result !== true) {
+    if (mounted && result !== true) {
       setLoginError(result)
     }
+    return () => mounted = false
   }
 
   return (
