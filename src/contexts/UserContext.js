@@ -15,7 +15,7 @@ export function UserProvider({ children }) {
   useEffect(() => {
     let mounted = true
     async function getUserData() {
-      if (user !== null) {
+      if (user) {
         const data = await getUser(user.uid)
         if (mounted) {
           setUserData(data)

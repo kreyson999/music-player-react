@@ -1,4 +1,5 @@
 .song {
+  margin-right: 0.5rem;
   display: flex;
   flex-direction: column;
   width: 10rem;
@@ -32,18 +33,34 @@
         text-align: center;
       }
     }
-  }
-  &__title {
-    margin: 0.25rem 0;
-    text-decoration: none;
-    font-weight: bold;
-    color: var(--dark-primary-blue-color);
-  }
-  &:hover {
-    .song__image {
+    &:hover {
       .song__image__hover {
         opacity: 1;
       }
     }
   }
+  &__bottom {
+    display: flex;
+    &__title {
+      width: 100%;
+      margin: 0.25rem 0;
+      text-decoration: none;
+      font-weight: bold;
+      color: var(--dark-primary-blue-color);
+    }
+    &__iconbutton {
+      height: min-content;
+      cursor: pointer;
+      margin: 0.25rem 0;
+      display: grid;
+      place-content: center;
+      background-color: transparent;
+      outline: none;
+      border: none;
+    }
+  }
+}
+
+.song:last-child {
+  margin-right: 0;
 }

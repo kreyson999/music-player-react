@@ -6,6 +6,7 @@ import { MusicProvider } from '../../../contexts/MusicContext';
 import { UserProvider } from '../../../contexts/UserContext';
 import ProfileButton from '../ProfileButton/ProfileButton';
 import './Layout.scss'
+import LayoutFooter from './LayoutFooter';
 
 const Layout = () => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false)
@@ -57,32 +58,7 @@ const Layout = () => {
             <Outlet/>
           </main>     
         </div>
-        <footer className='footer'>
-          <div className='footer__buttons'>
-            <button className='footer__buttons__iconbutton footer__buttons__previous'>
-              <img src='assets/left_icon.svg' alt='Left Icon'/>
-            </button>
-            <button className='footer__buttons__iconbutton footer__buttons__play'>
-              <img src='assets/play-circle.svg' alt='Play Icon'/>
-            </button>
-            <button className='footer__buttons__iconbutton footer__buttons__next'>
-              <img src='assets/right_icon.svg' alt='Left Icon'/>
-            </button>
-          </div>
-          <div className='footer__timeline'>
-            <span>0:00</span>
-            <div className='footer__timeline__progressbar'>
-              <div 
-              style={{
-                width: `60%`
-              }}
-              className='footer__timeline__progressbar__progress'>
-                <div className='footer__timeline__progressbar__progress__circle'></div>
-              </div>
-            </div>
-            <span>3:33</span>
-          </div>
-        </footer>
+        <LayoutFooter/>
       </MusicProvider>
     </UserProvider>
   );

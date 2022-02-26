@@ -1,19 +1,16 @@
 .homepage {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
 
   &__sectiontitle {
-    margin-top: 1rem;
-  }
-  &__sectiontitle:first-child {
-    margin-top: 0;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   &__carousel {
     display: flex;
     overflow-x: scroll;
-    padding: 0.5rem 0;
+    padding: 0.5rem;
 
     &::-webkit-scrollbar {
       width: 1rem;
@@ -34,6 +31,17 @@
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
       background: var(--primary-blue-color);
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .homepage {
+    &__sectiontitle {
+      margin-left: 1rem;
+      margin-top: 1rem;
+    }
+    &__carousel {
+      padding: 1rem;
     }
   }
 }

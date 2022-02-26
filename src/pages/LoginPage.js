@@ -14,9 +14,11 @@ function LoginPage() {
   const navigate = useNavigate()
   
   useEffect(() => {
-    if (currentUser) {
+    let mounted = true
+    if (mounted && currentUser) {
       navigate('/')
     }
+    return () => mounted = false
   }, [currentUser, navigate])
   
   const [currentPage, setCurrentPage] = useState(LOGIN_PAGES.home)
