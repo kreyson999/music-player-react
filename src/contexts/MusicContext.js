@@ -12,6 +12,7 @@ export function MusicProvider({children}) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
+  const [queue, setQueue] = useState([])
 
 
   useEffect(() => {
@@ -31,8 +32,17 @@ export function MusicProvider({children}) {
   useEffect(() => {
     const updateCurrentTime = (e) => {
       setCurrentTime(e.target.currentTime)
+      // check if audio is ended
       if (e.target.currentTime === e.target.duration) {
-        setIsPlaying(false)
+        if (queue.length > 0) {
+          // get first element of the queue and set it to current music
+          const currentQueue = [...queue]
+          const firstItem = currentQueue.shift()
+          setQueue(currentQueue)
+          setCurrentMusic(firstItem)
+        } else {
+          setIsPlaying(false)
+        }
       }
     }
     if (currentAudio !== undefined) {
@@ -43,7 +53,7 @@ export function MusicProvider({children}) {
         currentAudio.removeEventListener('timeupdate', updateCurrentTime)
       }
     }
-  }, [currentAudio])
+  }, [currentAudio, queue])
 
   useEffect(() => {
     if (currentAudio) {
@@ -73,6 +83,12 @@ export function MusicProvider({children}) {
     }
   }, [currentMusic])
   
+  const handleAddToQueue = (music) => {
+    const currentQueue = [...queue]
+    currentQueue.push(music)
+    setQueue(currentQueue)
+  }
+
   const handleSettingCurrentTime = (time) => {
     if (currentAudio) {
       currentAudio.currentTime = time
@@ -87,10 +103,18 @@ export function MusicProvider({children}) {
   }
   
   const handleStatus = () => {
+    // check if there is audio and if audio is paused
     if (currentAudio && currentAudio.paused) {
       setIsPlaying(true)
+    // check if there is audio but is not paused
     } else if (currentAudio && !currentAudio.paused) {
       setIsPlaying(false)
+    } else if (!currentAudio && queue.length > 0) {
+      // get first element of the queue and set it to current music
+      const currentQueue = [...queue]
+      const firstItem = currentQueue.shift()
+      setQueue(currentQueue)
+      setCurrentMusic(firstItem)
     }
   }
 
@@ -109,10 +133,12 @@ export function MusicProvider({children}) {
           currentTime: currentTime,
           volume: currentAudio?.volume ?? 0
         }, 
+        queue,
         handleChangingMusic,
         handleStatus,
         handleSettingCurrentTime,
-        handleSettingVolume
+        handleSettingVolume,
+        handleAddToQueue,
       }}>
         {children}
     </MusicContext.Provider>

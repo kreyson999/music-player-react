@@ -1,0 +1,32 @@
+.songrow {
+  padding: 0.5rem;
+  display: flex;
+  border-radius: 0.5rem;
+  &__index {
+    display: grid;
+    place-content: center;
+    font-size: 1.25rem;
+  }
+  &__image {
+    width: 2.5rem;
+    height: 2.5rem;
+    img {
+      border-radius: 0.5rem;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 0.5rem;
+    &__title {
+      font-size: 1rem;
+    }
+  }
+  &:hover {
+    background-color: var(--light-gray-color);
+  }
+}

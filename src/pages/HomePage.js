@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Song from "../components/Home/Song/Song";
+import SectionTitle from "../components/Shared/SectionTitle/SectionTitle";
 import MenuModalProvider from "../contexts/MenuModalContext";
 import { getSongs } from "../services/database";
 import '../styles/HomePage.scss'
@@ -24,7 +25,7 @@ function HomePage() {
     <div className="homepage">
       <MenuModalProvider>
         <section>
-          <h2 className="homepage__sectiontitle">All songs</h2>
+          <SectionTitle title={"All songs"}/>
           <div className="homepage__carousel">
             {songs.map((song) => (
               <Song key={song.id} song={song}/>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useMusic } from "../../../contexts/MusicContext";
 import ProgressBar from "./ProgressBar";
 import VolumeBar from "./VolumeBar";
@@ -35,9 +36,9 @@ const LayoutFooter = () => {
         <ProgressBar/>
       </div>
       <div className="footer__right">
-        <button className="footer__right__iconbutton">
+        <Link to={"/queue"} className="footer__right__iconbutton">
           <img src='assets/list.svg' alt='Queue'/>
-        </button>
+        </Link>
         <VolumeBar/>
       </div>
     </footer>

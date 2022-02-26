@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../../contexts/AuthContext'
 import { MusicProvider } from '../../../contexts/MusicContext';
 import { UserProvider } from '../../../contexts/UserContext';
+
 import ProfileButton from '../ProfileButton/ProfileButton';
-import './Layout.scss'
 import LayoutFooter from './LayoutFooter';
+
+import './Layout.scss'
 
 const Layout = () => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false)
@@ -32,9 +34,9 @@ const Layout = () => {
     <UserProvider>
       <MusicProvider>
         <nav className={`navbar ${isSearchBarOpen ? 'navbar--searchbaropen' : ''}`}>
-          <div className="navbar__logo">
+          <Link to={'/'} className="navbar__logo">
             <img src='/assets/logo.svg' alt='LOGO'/>
-          </div>
+          </Link>
           <form className="navbar__searchbar">
             <input className='navbar__searchbar__input' placeholder='Szukaj'/>
           </form>
