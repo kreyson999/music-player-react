@@ -26,6 +26,7 @@ export function UserProvider({ children }) {
     return () => mounted = false
   }, [user])
 
+
   return (
     <UserContext.Provider value={userData}>
       {children}

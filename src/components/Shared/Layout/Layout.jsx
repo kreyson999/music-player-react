@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../../contexts/AuthContext'
 import { MusicProvider } from '../../../contexts/MusicContext';
@@ -35,7 +35,7 @@ const Layout = () => {
       <MusicProvider>
         <nav className={`navbar ${isSearchBarOpen ? 'navbar--searchbaropen' : ''}`}>
           <Link to={'/'} className="navbar__logo">
-            <img src='/assets/logo.svg' alt='LOGO'/>
+            <img src='assets/logo.svg' alt='LOGO'/>
           </Link>
           <form className="navbar__searchbar">
             <input className='navbar__searchbar__input' placeholder='Szukaj'/>
@@ -54,7 +54,11 @@ const Layout = () => {
         </nav>
         <div className='page__body'>
           <aside className={`page__body__aside ${isMenuOpen ? 'page__body__aside--open' : ''}`}>
-            aside
+            <NavLink to={"/"} className={"page__body__aside__navlink"}>
+              Home
+            </NavLink>
+            <hr className='page__body__aside__hr'/>
+            <span className='page__body__aside__sectiontitle'>Your playlists:</span>
           </aside>
           <main className='page__body__main'>
             <Outlet/>

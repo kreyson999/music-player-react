@@ -57,6 +57,9 @@
   flex-grow: 1;
 
   &__aside {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
     z-index: 99;
     left: -75%;
     position: absolute;
@@ -64,6 +67,26 @@
     width: 75%;
     background-color: var(--dark-gray-color);
     transition: transform 300ms ease-out;
+
+    &__navlink {
+      font-size: 1.25rem;
+      padding: 0.5rem;
+      color: var(--light-gray-color);
+      font-weight: bold;
+      text-decoration: none;
+    }
+    &__navlink.active {
+      color: white;
+    }
+    &__hr {
+      margin: 0.5rem 0;
+      border: none;
+      border-bottom: 1px solid var(--light-gray-color);
+    }
+    &__sectiontitle {
+      margin: 0.5rem;
+      color: white;
+    }
   }
   &__aside--open {
     transform: translateX(calc(100% - 0.5px));

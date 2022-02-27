@@ -11,10 +11,10 @@ const Song = ({song}) => {
   const showModal = () => {
     const { x, y, height, width } = songRef.current.getBoundingClientRect()
     const children = (
-    <>
-      <button>Dodaj do playlisty</button>
-      <button onClick={() => music.handleAddToQueue(song)}>Dodaj do kolejki</button>
-    </>
+      <>
+        <button onClick={() => modal.togglePlaylistModal()}>Dodaj do playlisty</button>
+        <button onClick={() => music.handleAddToQueue(song)}>Dodaj do kolejki</button>
+      </>
     )
     modal.showModal(children, {x: x+(width/2), y: y+(height/1.25)})
   }
