@@ -9,15 +9,17 @@ export const useModal = () => {
 }
 
 const MenuModalProvider = ({children}) => {
+  const [songId, setSongId] = useState()
   const [position, setPostion] = useState({x: 0, y:0})
   const [isVisible, setIsVisible] = useState(false)
   const [isPlaylistVisible, setIsPlaylistVisible] = useState(false)
   const [modalChildren, setModalChildren] = useState(null)
 
-  const showModal = (passedChildren, pos) => {
+  const showModal = (passedChildren, pos, songId) => {
     setModalChildren(passedChildren)
     setIsVisible(true)
     setPostion({x: pos.x, y: pos.y})
+    setSongId(songId)
   }
 
   const hideModal = () => {
@@ -39,7 +41,7 @@ const MenuModalProvider = ({children}) => {
         >
           {modalChildren}
         </MenuModal>)}
-      {isPlaylistVisible && <PlaylistModal togglePlaylistModal={togglePlaylistModal}/>}
+      {isPlaylistVisible && <PlaylistModal songId={songId} togglePlaylistModal={togglePlaylistModal}/>}
       {children}
     </MenuModalContext.Provider>
   );

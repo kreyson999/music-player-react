@@ -16,7 +16,7 @@ const Song = ({song}) => {
         <button onClick={() => music.handleAddToQueue(song)}>Dodaj do kolejki</button>
       </>
     )
-    modal.showModal(children, {x: x+(width/2), y: y+(height/1.25)})
+    modal.showModal(children, {x: x+(width/2), y: y+(height/1.25)}, song.id)
   }
 
   return (

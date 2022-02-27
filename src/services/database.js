@@ -74,9 +74,29 @@ export async function getUserPlaylists(userId) {
   const userPlaylistsSnap = await getDocs(userPlaylistsQuery)
   const userPlaylists = []
   userPlaylistsSnap.forEach((doc) => {
-    userPlaylists.push(doc.data())
+    userPlaylists.push({...doc.data(), id: doc.id})
   })
   return userPlaylists
+}
+
+export async function addSongToPlaylist(playlistId, songId) {
+  const playlistDoc = await getDoc(doc(db, playlistCollection, playlistId))
+  const playlistData = playlistDoc.data()
+  const songs = playlistData.songs
+  songs.push(songId)
+  const data = {
+    songs: songs
+  }
+  return updateDoc(doc(db, playlistCollection, playlistId), data)
+}
+
+export async function updatePlaylist(playlistId, title, photoUrl) {
+  const playlistDoc = await getDoc(doc(db, playlistCollection, playlistId))
+  const playlistData = playlistDoc.data()
+  const data = {
+    title: title ?? playlistData.title
+  }
+  return updateDoc(doc(db, playlistCollection, playlistId), data)
 }
 
 export async function createPlaylist(userId) {

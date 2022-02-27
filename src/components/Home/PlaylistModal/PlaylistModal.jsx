@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 import { useAuth } from '../../../contexts/AuthContext'
-import { createPlaylist, getUserPlaylists } from "../../../services/database";
+import { addSongToPlaylist, createPlaylist, getUserPlaylists } from "../../../services/database";
 
 import "./PlaylistModal.scss"
 
-const PlaylistModal = ({togglePlaylistModal}) => {
+const PlaylistModal = ({togglePlaylistModal, songId}) => {
   const { uid } = useAuth()
   const [playlists, setPlaylists] = useState([])
   const [shouldUpdate, setShouldUpdate] = useState(true)
@@ -20,6 +20,12 @@ const PlaylistModal = ({togglePlaylistModal}) => {
       // update
       setShouldUpdate(true)
     }
+  }
+
+  const handleAddSongToPlaylist = async (playlist) => {
+    if (playlist.songs.includes(songId)) return
+    await addSongToPlaylist(playlist.id, songId)
+    setShouldUpdate(true)
   }
 
   useEffect(() => {
@@ -57,9 +63,17 @@ const PlaylistModal = ({togglePlaylistModal}) => {
           {playlists.map((playlist, index) => (
             <div key={index} className="playlistmodal__container__playlists__container">
               <span className="playlistmodal__container__playlists__container__title">{playlist.title}</span>
-              <button className="playlistmodal__container__playlists__container__button">
-                Add
-              </button>
+              {playlist.songs.includes(songId) ? (
+                <button
+                className="playlistmodal__container__playlists__container__button playlistmodal__container__playlists__container__button--include">
+                  <img src="assets/check.svg" alt="Playlist contain that song"/>
+                </button>
+              ) : (
+                <button onClick={() => handleAddSongToPlaylist(playlist)} 
+                className="playlistmodal__container__playlists__container__button">
+                  <img src="assets/plus.svg" alt="Add to playlist"/>
+                </button>
+              )}
             </div>
           ))}
         </div>

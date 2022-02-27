@@ -70,7 +70,7 @@
 
     &__navlink {
       font-size: 1.25rem;
-      padding: 0.5rem;
+      margin: 0.5rem 0.5rem 0 0.5rem;
       color: var(--light-gray-color);
       font-weight: bold;
       text-decoration: none;
@@ -84,8 +84,27 @@
       border-bottom: 1px solid var(--light-gray-color);
     }
     &__sectiontitle {
+      font-weight: bold;
       margin: 0.5rem;
       color: white;
+    }
+    &__playlists {
+      display: flex;
+      flex-direction: column;
+      &__playlist {
+        cursor: pointer;
+        margin: 0 0.5rem;
+        font-size: 1rem;
+        background-color: transparent;
+        border: none;
+        color: var(--light-gray-color);
+        font-family: "Roboto", sans-serif;
+        text-align: left;
+        padding: 0.25rem 0;
+        &:hover {
+          color: white;
+        }
+      }
     }
   }
   &__aside--open {

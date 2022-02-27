@@ -62,7 +62,12 @@
           border: none;
           font-size: 1rem;
           font-family: "Roboto", sans-serif;
-          padding: 0.35rem 1rem;
+          display: grid;
+          padding: 0.25rem;
+          place-content: center;
+          &--include {
+            background-color: rgb(0, 177, 29);
+          }
         }
         &:hover {
           background-color: var(--light-gray-color);
