@@ -13,6 +13,7 @@ export function MusicProvider({children}) {
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [queue, setQueue] = useState([])
+  const [history, setHistory] = useState([])
 
 
   useEffect(() => {
@@ -37,9 +38,13 @@ export function MusicProvider({children}) {
         if (queue.length > 0) {
           // get first element of the queue and set it to current music
           const currentQueue = [...queue]
-          const firstItem = currentQueue.shift()
+          const firstSong = currentQueue.shift()
+          // get current history and push shifted song from queue
+          const currentHistory = [...history]
+          currentHistory.push(firstSong)
           setQueue(currentQueue)
-          setCurrentMusic(firstItem)
+          setCurrentMusic(firstSong)
+          setHistory(currentHistory)
         } else {
           setIsPlaying(false)
         }
@@ -53,7 +58,7 @@ export function MusicProvider({children}) {
         currentAudio.removeEventListener('timeupdate', updateCurrentTime)
       }
     }
-  }, [currentAudio, queue])
+  }, [currentAudio, queue, history])
 
   useEffect(() => {
     if (currentAudio) {
@@ -101,6 +106,31 @@ export function MusicProvider({children}) {
     }
     setIsPlaying(true)
   }
+
+  const handleSkipToTheNextSong = () => {
+    if (queue.length < 1) return
+    const currentQueue = [...queue]
+    const firstSong = currentQueue.shift()
+    // get current history and push shifted song from queue
+    const currentHistory = [...history]
+    currentHistory.push(currentMusic)
+    setQueue(currentQueue)
+    setCurrentMusic(firstSong)
+    setHistory(currentHistory)
+  }
+
+  const handleSkipToThePreviousSong = () => {
+    if (history.length < 1) return
+    const currentHistory = [...history]
+    const lastSong = currentHistory.pop()
+
+    const currentQueue = [...queue]
+    currentQueue.unshift(currentMusic)
+    
+    setQueue(currentQueue)
+    setCurrentMusic(lastSong)
+    setHistory(currentHistory)
+  }
   
   const handleStatus = () => {
     // check if there is audio and if audio is paused
@@ -139,6 +169,8 @@ export function MusicProvider({children}) {
         handleSettingCurrentTime,
         handleSettingVolume,
         handleAddToQueue,
+        handleSkipToTheNextSong,
+        handleSkipToThePreviousSong,
       }}>
         {children}
     </MusicContext.Provider>

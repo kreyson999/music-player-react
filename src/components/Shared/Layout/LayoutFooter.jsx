@@ -5,7 +5,7 @@ import VolumeBar from "./VolumeBar";
  
 
 const LayoutFooter = () => {
-  const { currentMusic, handleStatus, isPlaying } = useMusic()
+  const { currentMusic, handleStatus, isPlaying, handleSkipToTheNextSong, handleSkipToThePreviousSong } = useMusic()
 
   return currentMusic === undefined ? null : (
     <footer className='footer'>
@@ -22,15 +22,15 @@ const LayoutFooter = () => {
       </div>
       <div className="footer__bottom">
         <div className="footer__bottom__buttons">
-          <button className='footer__bottom__buttons__iconbutton footer__bottom__buttons__previous'>
+          <button onClick={handleSkipToThePreviousSong} className='footer__bottom__buttons__iconbutton footer__bottom__buttons__previous'>
             <img src='assets/left_icon.svg' alt='Left Icon'/>
           </button>
           <button onClick={handleStatus} 
           className='footer__bottom__buttons__iconbutton footer__bottom__buttons__play'>
             {isPlaying ? <img src='assets/pause-circle.svg' alt='Pause Icon'/> : <img src='assets/play-circle.svg' alt='Play Icon'/>}
           </button>
-          <button className='footer__bottom__buttons__iconbutton footer__bottom__buttons__next'>
-            <img src='assets/right_icon.svg' alt='Left Icon'/>
+          <button onClick={handleSkipToTheNextSong} className='footer__bottom__buttons__iconbutton footer__bottom__buttons__next'>
+            <img src='assets/right_icon.svg' alt='Right Icon'/>
           </button>
         </div>
         <ProgressBar/>

@@ -24,7 +24,7 @@ function QueuePage() {
           <>
             <span className='queuepage__container__title'>Upcoming:</span>
             {music.queue.map((song, index) => {
-              return <SongRow index={index + (music.currentMusic.duration > 0 ? 2 : 1)} song={song}/>
+              return <SongRow key={index} index={index + (music.currentMusic.duration > 0 ? 2 : 1)} song={song}/>
             })}
           </>
         ) : (
