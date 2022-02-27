@@ -29,7 +29,7 @@ const Song = ({song}) => {
         </div>
       </div>
       <div className='song__bottom'>
-        <a href="/" className="song__bottom__title">{song.artists[0]} - {song.title}</a>
+        <a className="song__bottom__title">{song.artists[0]} - {song.title}</a>
         <button 
         onClick={showModal} 
         className='song__bottom__iconbutton'>

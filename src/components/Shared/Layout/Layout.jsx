@@ -77,7 +77,7 @@ const Layout = () => {
             <span className='page__body__aside__sectiontitle'>Your playlists:</span>
             <div className='page__body__aside__playlists'>
               {playlists.map((playlist, index) => (
-                <button key={playlist.id} className='page__body__aside__playlists__playlist'>{playlist.title}</button>
+                <Link to={`playlist/${playlist.id}`} key={playlist.id} className='page__body__aside__playlists__playlist'>{playlist.title}</Link>
               ))}
             </div>
           </aside>

@@ -23,8 +23,7 @@ const PlaylistModal = ({togglePlaylistModal, songId}) => {
   }
 
   const handleAddSongToPlaylist = async (playlist) => {
-    if (playlist.songs.includes(songId)) return
-    await addSongToPlaylist(playlist.id, songId)
+    await addSongToPlaylist(playlist, songId)
     setShouldUpdate(true)
   }
 

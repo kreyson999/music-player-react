@@ -79,24 +79,26 @@ export async function getUserPlaylists(userId) {
   return userPlaylists
 }
 
-export async function addSongToPlaylist(playlistId, songId) {
-  const playlistDoc = await getDoc(doc(db, playlistCollection, playlistId))
-  const playlistData = playlistDoc.data()
-  const songs = playlistData.songs
+export async function addSongToPlaylist(playlist, songId) {
+  if (playlist.songs.includes(songId)) return
+  const songs = [...playlist.songs]
   songs.push(songId)
   const data = {
     songs: songs
   }
-  return updateDoc(doc(db, playlistCollection, playlistId), data)
+  return updateDoc(doc(db, playlistCollection, playlist.id), data)
 }
 
-export async function updatePlaylist(playlistId, title, photoUrl) {
-  const playlistDoc = await getDoc(doc(db, playlistCollection, playlistId))
-  const playlistData = playlistDoc.data()
+export async function getPlaylistById(id) {
+  const playlistDoc = await getDoc(doc(db, playlistCollection, id))
+  return playlistDoc.data()
+}
+
+export async function updatePlaylist(playlist, title, photoUrl) {
   const data = {
-    title: title ?? playlistData.title
+    title: title
   }
-  return updateDoc(doc(db, playlistCollection, playlistId), data)
+  return updateDoc(doc(db, playlistCollection, playlist.id), data)
 }
 
 export async function createPlaylist(userId) {
