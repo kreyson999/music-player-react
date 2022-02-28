@@ -7,34 +7,34 @@ import '../styles/PlaylistPage.scss'
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState()
   const [author, setAuthor] = useState()
-  const { playlistId } = useParams()
+  const { id } = useParams()
   
   useEffect(() => {
-    let mounted = true
-    if (playlistId) {
+    let isMounted = true
+    if (id) {
       async function getPlaylist() {
-        const data = await getPlaylistById(playlistId)
-        if (mounted) {
+        const data = await getPlaylistById(id)
+        if (isMounted) {
           setPlaylist(data)
         }
       }
       getPlaylist()
     }
-    return () => mounted = false
-  }, [playlistId])
+    return () => isMounted = false
+  }, [id])
 
   useEffect(() => {
-    let mounted = true
+    let isMounted = true
     if (playlist?.createdBy) {
       async function getAuthor() {
         const user = await getUser(playlist.createdBy)
-        if (mounted) {
+        if (isMounted) {
           setAuthor(user)
         }
       }
       getAuthor()
     }
-    return () => mounted = false
+    return () => isMounted = false
   }, [playlist?.createdBy])
 
   return (

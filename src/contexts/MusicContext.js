@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 const MusicContext = React.createContext()
 
@@ -8,13 +8,81 @@ export function useMusic() {
 
 export function MusicProvider({children}) {
   const [currentAudio, setCurrentAudio] = useState()
-  const [currentMusic, setCurrentMusic] = useState()
+  const [currentSong, setCurrentSong] = useState()
   const [isPlaying, setIsPlaying] = useState(false)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [queue, setQueue] = useState([])
   const [history, setHistory] = useState([])
+  const [volume, setVolume] = useState(0.5)
 
+
+  const handleAddingSongToQueue = (song) => {
+    setQueue([...queue, song])
+  }
+
+  const handleSettingSongCurrentTime = (time) => {
+    if (currentAudio) {
+      currentAudio.currentTime = time
+    }
+  }
+
+  const handleChangingSong = (song) => {
+    if (currentSong?.title !== song?.title) {
+      setCurrentSong(song)
+    }
+    setIsPlaying(true)
+  }
+
+  const handleSkipToTheNextSong = useCallback(() => {
+    if (queue.length < 1) {
+      setIsPlaying(false)
+      return
+    }
+    const currentQueue = [...queue]
+    const nextSongInTheQueue = currentQueue.shift()
+
+    setQueue(currentQueue)
+    setHistory([...history, currentSong])
+    setCurrentSong(nextSongInTheQueue)
+  }, [currentSong, history, queue])
+
+  const handleSkipToThePreviousSong = () => {
+    if (history.length < 1) return
+    const currentHistory = [...history]
+    const lastSongInHistory = currentHistory.pop()
+    
+    setQueue([currentSong, ...queue])
+    setHistory(currentHistory)
+    setCurrentSong(lastSongInHistory)
+  }
+  
+  const handlePlayingStatus = () => {
+    // check if there is audio and if audio is paused
+    if (currentAudio && currentAudio.paused) {
+      setIsPlaying(true)
+    // check if there is audio but is not paused
+    } else if (currentAudio && !currentAudio.paused) {
+      setIsPlaying(false)
+    } else if (!currentAudio && queue.length > 0) {
+      // get first element of the queue and set it to current music
+      const currentQueue = [...queue]
+      const nextSongInTheQueue = currentQueue.shift()
+
+      setQueue(currentQueue)
+      setCurrentSong(nextSongInTheQueue)
+    }
+  }
+
+  const handleSettingVolume = (vol) => {
+    setVolume(vol)
+  }
+
+  useEffect(() => {
+    if (currentAudio) {
+      currentAudio.volume = volume
+    }
+  }, [currentAudio, volume])
 
   useEffect(() => {
     const updateDuration = (e) => {
@@ -35,30 +103,18 @@ export function MusicProvider({children}) {
       setCurrentTime(e.target.currentTime)
       // check if audio is ended
       if (e.target.currentTime === e.target.duration) {
-        if (queue.length > 0) {
-          // get first element of the queue and set it to current music
-          const currentQueue = [...queue]
-          const firstSong = currentQueue.shift()
-          // get current history and push shifted song from queue
-          const currentHistory = [...history]
-          currentHistory.push(firstSong)
-          setQueue(currentQueue)
-          setCurrentMusic(firstSong)
-          setHistory(currentHistory)
-        } else {
-          setIsPlaying(false)
-        }
+        handleSkipToTheNextSong()
       }
     }
-    if (currentAudio !== undefined) {
+    if (currentAudio) {
       currentAudio.addEventListener('timeupdate', updateCurrentTime)
     }
     return () => {
-      if (currentAudio !== undefined) {
+      if (currentAudio) {
         currentAudio.removeEventListener('timeupdate', updateCurrentTime)
       }
     }
-  }, [currentAudio, queue, history])
+  }, [currentAudio, queue, history, handleSkipToTheNextSong])
 
   useEffect(() => {
     if (currentAudio) {
@@ -76,99 +132,34 @@ export function MusicProvider({children}) {
   }, [currentAudio, isPlaying])
 
   useEffect(() => {
-    if (currentMusic) {
-      setCurrentAudio(new Audio(currentMusic.url))
+    if (currentSong) {
+      setCurrentAudio(new Audio(currentSong.url))
       setIsPlaying(true)
     }
     return () => {
-      if (currentMusic) {
+      if (currentSong) {
         setCurrentAudio(null)
         setIsPlaying(false)
       }
     }
-  }, [currentMusic])
-  
-  const handleAddToQueue = (music) => {
-    const currentQueue = [...queue]
-    currentQueue.push(music)
-    setQueue(currentQueue)
-  }
-
-  const handleSettingCurrentTime = (time) => {
-    if (currentAudio) {
-      currentAudio.currentTime = time
-    }
-  }
-
-  const handleChangingMusic = (music) => {
-    if (currentMusic?.title !== music?.title) {
-      setCurrentMusic(music)
-    }
-    setIsPlaying(true)
-  }
-
-  const handleSkipToTheNextSong = () => {
-    if (queue.length < 1) return
-    const currentQueue = [...queue]
-    const firstSong = currentQueue.shift()
-    // get current history and push shifted song from queue
-    const currentHistory = [...history]
-    currentHistory.push(currentMusic)
-    setQueue(currentQueue)
-    setCurrentMusic(firstSong)
-    setHistory(currentHistory)
-  }
-
-  const handleSkipToThePreviousSong = () => {
-    if (history.length < 1) return
-    const currentHistory = [...history]
-    const lastSong = currentHistory.pop()
-
-    const currentQueue = [...queue]
-    currentQueue.unshift(currentMusic)
-    
-    setQueue(currentQueue)
-    setCurrentMusic(lastSong)
-    setHistory(currentHistory)
-  }
-  
-  const handleStatus = () => {
-    // check if there is audio and if audio is paused
-    if (currentAudio && currentAudio.paused) {
-      setIsPlaying(true)
-    // check if there is audio but is not paused
-    } else if (currentAudio && !currentAudio.paused) {
-      setIsPlaying(false)
-    } else if (!currentAudio && queue.length > 0) {
-      // get first element of the queue and set it to current music
-      const currentQueue = [...queue]
-      const firstItem = currentQueue.shift()
-      setQueue(currentQueue)
-      setCurrentMusic(firstItem)
-    }
-  }
-
-  const handleSettingVolume = (vol) => {
-    if (currentAudio) {
-      currentAudio.volume = vol
-    }
-  }
+  }, [currentSong])
   
   return (
     <MusicContext.Provider value={
       {
         isPlaying,
-        currentMusic: {...currentMusic, 
+        currentSong: {
+          ...currentSong, 
           duration: duration, 
           currentTime: currentTime,
-          volume: currentAudio?.volume ?? 0
+          volume: volume
         }, 
         queue,
-        handleChangingMusic,
-        handleStatus,
-        handleSettingCurrentTime,
+        handleChangingSong,
+        handlePlayingStatus,
+        handleSettingSongCurrentTime,
         handleSettingVolume,
-        handleAddToQueue,
+        handleAddingSongToQueue,
         handleSkipToTheNextSong,
         handleSkipToThePreviousSong,
       }}>

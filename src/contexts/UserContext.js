@@ -9,26 +9,26 @@ export function useUser() {
 }
 
 export function UserProvider({ children }) {
-  const [userData, setUserData] = useState()
-  const user = useAuth()
+  const [user, setUser] = useState()
+  const userAuth = useAuth()
 
   useEffect(() => {
-    let mounted = true
+    let isMounted = true
     async function getUserData() {
-      if (user) {
-        const data = await getUser(user.uid)
-        if (mounted) {
-          setUserData(data)
+      if (userAuth?.uid) {
+        const data = await getUser(userAuth.uid)
+        if (isMounted) {
+          setUser(data)
         }
       }
     }
     getUserData()
-    return () => mounted = false
-  }, [user])
+    return () => isMounted = false
+  }, [userAuth?.uid])
 
 
   return (
-    <UserContext.Provider value={userData}>
+    <UserContext.Provider value={user}>
       {children}
     </UserContext.Provider>
   )

@@ -10,15 +10,15 @@ function HomePage() {
   const [songs, setSongs] = useState([])
 
   useEffect(() => {
-    let mounted = true
-    async function getSongsFromDb() {
+    let isMounted = true
+    async function getSongsFromDatabase() {
       const data = await getSongs()
-      if (mounted) {
+      if (isMounted) {
         setSongs(data)
       }
     }
-    getSongsFromDb()
-    return () => mounted = false
+    getSongsFromDatabase()
+    return () => isMounted = false
   }, [])
 
   return (

@@ -12,35 +12,30 @@ import './Layout.scss'
 import { getUserPlaylists } from '../../../services/database';
 
 const Layout = () => {
-  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [playlists, setPlaylists] = useState([])
-  const currentUser = useAuth()
+  const userAuth = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!userAuth) {
       navigate('/login')
     }
   })
 
   useEffect(() => {
-    let mounted = true
-    if (currentUser) {
-      async function getUserPlaylistsFromDb() {
-        const playlistsFromDb = await getUserPlaylists(currentUser.uid)
-        if (mounted) {
-          setPlaylists(playlistsFromDb)
+    let isMounted = true
+    if (userAuth) {
+      async function getUserPlaylistsFromDatabase() {
+        const playlistsFromDatabase = await getUserPlaylists(userAuth.uid)
+        if (isMounted) {
+          setPlaylists(playlistsFromDatabase)
         }
       }
-      getUserPlaylistsFromDb()
+      getUserPlaylistsFromDatabase()
     }
-    return () => mounted = false
-  }, [currentUser])
-
-  // const handleSearchBar = () => {
-  //   setIsSearchBarOpen(state => !state)
-  // }
+    return () => isMounted = false
+  }, [userAuth])
 
   const handleMenu = () => {
     setIsMenuOpen(state => !state)
@@ -49,21 +44,13 @@ const Layout = () => {
   return ( 
     <UserProvider>
       <MusicProvider>
-        <nav className={`navbar ${isSearchBarOpen ? 'navbar--searchbaropen' : ''}`}>
+        <nav className={`navbar`}>
           <Link to={'/'} className="navbar__logo">
             <img src='assets/logo.svg' alt='LOGO'/>
           </Link>
-          {/* <form className="navbar__searchbar">
-            <input className='navbar__searchbar__input' placeholder='Search'/>
-          </form> */}
           <div className='navbar__buttons'>
-            {/* <button 
-            onClick={handleSearchBar}
-            className='navbar__buttons__iconbutton navbar__buttons__iconbutton--mobile-only'>
-              <img src={isSearchBarOpen ? 'assets/close.svg' : 'assets/search.svg'} alt={isSearchBarOpen ? 'Close Menu' : 'Open Search'}/>
-            </button> */}
             <button onClick={handleMenu} className='navbar__buttons__iconbutton navbar__buttons__iconbutton--hide navbar__buttons__iconbutton--mobile-only'>
-              <img src={isMenuOpen ? 'assets/close.svg' : 'assets/menu.svg'} alt={isSearchBarOpen ? 'Close Menu' : 'Open Menu'}/>
+              <img src={isMenuOpen ? 'assets/close.svg' : 'assets/menu.svg'} alt={isMenuOpen ? 'Close Menu' : 'Open Menu'}/>
             </button>
             <ProfileButton/>
           </div>
@@ -76,8 +63,12 @@ const Layout = () => {
             <hr className='page__body__aside__hr'/>
             <span className='page__body__aside__sectiontitle'>Your playlists:</span>
             <div className='page__body__aside__playlists'>
-              {playlists.map((playlist, index) => (
-                <Link to={`playlist/${playlist.id}`} key={playlist.id} className='page__body__aside__playlists__playlist'>{playlist.title}</Link>
+              {playlists.map((playlist) => (
+                <Link 
+                  to={`playlist/${playlist.id}`} 
+                  key={playlist.id} 
+                  className='page__body__aside__playlists__playlist'
+                >{playlist.title}</Link>
               ))}
             </div>
           </aside>
