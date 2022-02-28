@@ -1,53 +1,59 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { auth } from "../firebase";
-import { addUser, updateUser } from "./database";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
-export async function signUp(name, email, password) {
+import { auth, googleProvider } from "../firebase";
+import { createUser, updateUser } from "./database";
+
+export async function signUpWithEmail({ name, email, password }) {
   try {
-    const result = await createUserWithEmailAndPassword(auth, email, password)
-    if (result.user.uid !== null) {
-      const dbResult = await addUser(result.user.uid, name)
-      console.log(dbResult)
+    const { user } = await createUserWithEmailAndPassword(auth, email, password)
+    
+    if (user.uid !== null) {
+      await createUser(user.uid, name)
     }
+
     return true
   } catch (error) {
     switch (error.code) {
       case 'auth/email-already-in-use':
-        return 'Podany e-mail jest już w użyciu!'
+        return 'This address e-mail is already in use!'
       default:
-        return 'Wystąpił niezidentifikowany problem z logowaniem. Spróbuj później!'
+        return 'Something went wrong with creating user. Try again later!'
     }
   }
 }
-
-const googleProvider = new GoogleAuthProvider()
 
 export async function signInWithGoogle() {
   try {
-    const result = await signInWithPopup(auth, googleProvider)
-    const credential = GoogleAuthProvider.credentialFromResult(result)
-    const token = credential.accessToken
-    const user = result.user
+    const { user } = await signInWithPopup(auth, googleProvider)
+
     if (user.uid !== null) {
       await updateUser(user.uid, user.displayName, user.photoURL)
     }
+
+    return true
   } catch (error) {
-    return error.message
+    switch(error.code) {
+      case 'auth/popup-closed-by-user':
+        return "You've closed the popup window."
+      default: 
+        return error.message
+    }
   }
 }
 
-export async function signIn(email, password) {
+export async function signInWithEmail({ email, password }) {
   try {
     await signInWithEmailAndPassword(auth, email, password)
+
     return true
   } catch (error) {
     switch (error.code) {
       case 'auth/wrong-password':
-        return 'Podane hasło jest nieprawidłowe.'
+        return 'Your password is incorrect!'
       case 'auth/user-not-found':
-        return 'Podany użytkownik nie znajduje się w naszej bazie danych!' 
+        return 'The user is not in our database!' 
       default:
-        return 'Wystąpił niezidentifikowany problem z logowaniem. Spróbuj później!'
+        return 'Something went wrong with creating user. Try again later!'
     }
   }
 }
