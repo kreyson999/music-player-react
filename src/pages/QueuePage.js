@@ -6,7 +6,7 @@ import SectionTitle from '../components/Shared/SectionTitle/SectionTitle';
 import '../styles/QueuePage.scss'
 
 function QueuePage() {
-  const { currentSong, queue } = useMusic()
+  const { currentSong, queue, currentPlaylist } = useMusic()
 
   return (
     <div className="queuepage">
@@ -20,7 +20,7 @@ function QueuePage() {
         </>
       ) : null}
       <div className='queuepage__container'>
-        {queue.length > 0 ? (
+        {queue.length > 0 && (
           <>
             <span className='queuepage__container__title'>Upcoming:</span>
             {queue.map((song, index) => (
@@ -31,8 +31,20 @@ function QueuePage() {
               />
             ))}
           </>
-        ) : (
-          <span className='queuepage__container__title'>The queue is currently empty!</span>
+        )}
+      </div>
+      <div className='queuepage__container'>
+        {currentPlaylist && (
+          <>
+            <span className='queuepage__container__title'>Next from {currentPlaylist.title}:</span>
+            {currentPlaylist.songs.map((song, index) => (
+              <SongRow 
+                key={index} 
+                index={index + (currentSong.duration > 0 ? (2 + queue.length) : (1 + queue.length))} 
+                song={song}
+              />
+            ))}
+          </>
         )}
       </div>
     </div>

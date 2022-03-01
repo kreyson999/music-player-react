@@ -23,14 +23,14 @@ const LayoutFooter = () => {
       <div className="footer__bottom">
         <div className="footer__bottom__buttons">
           <button onClick={handleSkipToThePreviousSong} className='footer__bottom__buttons__iconbutton footer__bottom__buttons__previous'>
-            <img src='assets/left_icon.svg' alt='Left Icon'/>
+            <img src='/assets/left_icon.svg' alt='Left Icon'/>
           </button>
           <button onClick={handlePlayingStatus} 
           className='footer__bottom__buttons__iconbutton footer__bottom__buttons__play'>
-            {isPlaying ? <img src='assets/pause-circle.svg' alt='Pause Icon'/> : <img src='assets/play-circle.svg' alt='Play Icon'/>}
+            {isPlaying ? <img src='/assets/pause-circle.svg' alt='Pause Icon'/> : <img src='/assets/play-circle.svg' alt='Play Icon'/>}
           </button>
           <button onClick={handleSkipToTheNextSong} className='footer__bottom__buttons__iconbutton footer__bottom__buttons__next'>
-            <img src='assets/right_icon.svg' alt='Right Icon'/>
+            <img src='/assets/right_icon.svg' alt='Right Icon'/>
           </button>
         </div>
         <div className="footer__bottom__timeline">
@@ -44,7 +44,7 @@ const LayoutFooter = () => {
       </div>
       <div className="footer__right">
         <Link to={"/queue"} className="footer__right__iconbutton">
-          <img src='assets/list.svg' alt='Queue'/>
+          <img src='/assets/list.svg' alt='Queue'/>
         </Link>
         <div className="footer__right__volumebar">
           <ProgressBar 

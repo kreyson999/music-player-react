@@ -1,13 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { getPlaylistById, getUser } from '../services/database'
+import { getPlaylistById, getPlaylistSongs, getUser } from '../services/database'
+import SongRow from '../components/Queue/SongRow/SongRow'
 import '../styles/PlaylistPage.scss'
+import { useMusic } from '../contexts/MusicContext';
 
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState()
+  const [songs, setSongs] = useState([])
   const [author, setAuthor] = useState()
   const { id } = useParams()
+  const { handlePlayThePlaylist } = useMusic()
+
+  const playThePlaylist = () => {
+    if (!playlist && songs.length === 0) return
+    
+    const data = {
+      ...playlist,
+      songs: songs
+    }
+    
+    handlePlayThePlaylist(data)
+  }
   
   useEffect(() => {
     let isMounted = true
@@ -37,20 +52,41 @@ function PlaylistPage() {
     return () => isMounted = false
   }, [playlist?.createdBy])
 
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted && playlist?.songs.length > 0) {
+      const getSongs = async () => {
+        const result = await getPlaylistSongs(playlist.songs)
+        if (isMounted) {
+          setSongs(result)
+        }
+      }
+      getSongs()
+    }
+    return () => isMounted = false
+  }, [playlist?.songs])
+
   return (
     <div className="playlistpage">
       {playlist ? (
-        <div className='playlistpage__info'>
-          <h1>{playlist.title}</h1>
-          <div className='playlistpage__info__details'>
-            <div className='playlistpage__info__details__authorimage'>
-              <img src={author && author.profileUrl} alt={"Author"}/>
+        <>
+          <div className='playlistpage__info'>
+            <h1>{playlist.title}</h1>
+            <div className='playlistpage__info__details'>
+              <div onClick={playThePlaylist} className='playlistpage__info__details__authorimage'>
+                <img src={author && author.profileUrl} alt={"Author"}/>
+              </div>
+              <span>{author && author.name}</span>
+              <div className='playlistpage__info__details__circle'></div>
+              <span>{playlist.songs.length}</span>
             </div>
-            <span>{author && author.name}</span>
-            <div className='playlistpage__info__details__circle'></div>
-            <span>{playlist.songs.length}</span>
           </div>
-        </div>
+          <div className='playlistpage__songs'>
+            {songs.map((song) => (
+              <SongRow key={song.id} song={song}/>
+            ))}
+          </div>
+        </>
       ) : (
         <span>Something went wrong with fetching data!</span>
       )}

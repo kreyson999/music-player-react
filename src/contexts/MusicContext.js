@@ -9,6 +9,7 @@ export function useMusic() {
 export function MusicProvider({children}) {
   const [currentAudio, setCurrentAudio] = useState()
   const [currentSong, setCurrentSong] = useState()
+  const [currentPlaylist, setCurrentPlaylist] = useState()
   const [isPlaying, setIsPlaying] = useState(false)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
@@ -16,7 +17,24 @@ export function MusicProvider({children}) {
   const [history, setHistory] = useState([])
   const [volume, setVolume] = useState(0.5)
 
+  const handlePlayThePlaylist = (playlist) => {
+    if (playlist.title === currentPlaylist?.title) return
+    handleClearingQueue()
 
+    const currentPlaylistSongs = [...playlist.songs] 
+    const nextSongInThePlaylist = currentPlaylistSongs.shift()
+
+    setCurrentSong(nextSongInThePlaylist)
+    setCurrentPlaylist(state => ({
+      ...playlist,
+      songs: currentPlaylistSongs
+    }))
+  }
+
+  const handleClearingQueue = () => {
+    setQueue([])
+  }
+  
   const handleAddingSongToQueue = (song) => {
     setQueue([...queue, song])
   }
@@ -35,17 +53,29 @@ export function MusicProvider({children}) {
   }
 
   const handleSkipToTheNextSong = useCallback(() => {
-    if (queue.length < 1) {
+    if (queue.length < 1 || !currentPlaylist) {
       setIsPlaying(false)
       return
     }
-    const currentQueue = [...queue]
-    const nextSongInTheQueue = currentQueue.shift()
+    if (queue.length > 0) {
+      const currentQueue = [...queue]
+      const nextSongInTheQueue = currentQueue.shift()
 
-    setQueue(currentQueue)
-    setHistory([...history, currentSong])
-    setCurrentSong(nextSongInTheQueue)
-  }, [currentSong, history, queue])
+      setQueue(currentQueue)
+      setHistory([...history, currentSong])
+      setCurrentSong(nextSongInTheQueue)
+    } else if (queue.length === 0 && currentPlaylist.songs.length > 0) {
+      const currentPlaylistSongs = [...queue]
+      const nextSongInThePlaylist = currentPlaylistSongs.shift()
+
+      setCurrentPlaylist(state => ({
+        ...state,
+        songs: currentPlaylistSongs
+      }))
+      setHistory([...history, currentSong])
+      setCurrentSong(nextSongInThePlaylist)
+    }
+  }, [currentSong, history, queue, currentPlaylist])
 
   const handleSkipToThePreviousSong = () => {
     if (history.length < 1) return
@@ -71,6 +101,15 @@ export function MusicProvider({children}) {
 
       setQueue(currentQueue)
       setCurrentSong(nextSongInTheQueue)
+    } else if (!currentAudio && queue.length === 0 && currentPlaylist) {
+      const currentPlaylistSongs = [...currentPlaylist.songs]
+      const nextSongInThePlaylist = currentPlaylistSongs.shift()
+
+      setCurrentPlaylist(state => ({
+        ...state,
+        songs: currentPlaylistSongs
+      }))
+      setCurrentSong(nextSongInThePlaylist)
     }
   }
 
@@ -114,7 +153,7 @@ export function MusicProvider({children}) {
         currentAudio.removeEventListener('timeupdate', updateCurrentTime)
       }
     }
-  }, [currentAudio, queue, history, handleSkipToTheNextSong])
+  }, [currentAudio, handleSkipToTheNextSong])
 
   useEffect(() => {
     if (currentAudio) {
@@ -155,6 +194,7 @@ export function MusicProvider({children}) {
           volume: volume
         }, 
         queue,
+        currentPlaylist,
         handleChangingSong,
         handlePlayingStatus,
         handleSettingSongCurrentTime,
@@ -162,6 +202,7 @@ export function MusicProvider({children}) {
         handleAddingSongToQueue,
         handleSkipToTheNextSong,
         handleSkipToThePreviousSong,
+        handlePlayThePlaylist,
       }}>
         {children}
     </MusicContext.Provider>

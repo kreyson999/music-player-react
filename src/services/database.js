@@ -49,10 +49,22 @@ SONGS
 const SONGS_QUERY = query(collection(db, SONGS_COLLECTION))
 
 export async function getSongs() {
-  const songsDoc = await getDocs(SONGS_QUERY)
+  const songDocs = await getDocs(SONGS_QUERY)
 
   const songs = []
-  songsDoc.forEach((song) => {
+  songDocs.forEach((song) => {
+    songs.push({...song.data(), id: song.id})
+  })
+
+  return songs
+}
+
+export async function getPlaylistSongs(songsArray) {
+  const songsQuery = query(collection(db, SONGS_COLLECTION), where("__name__", "in", songsArray))
+  const songDocs = await getDocs(songsQuery)
+
+  const songs = []
+  songDocs.forEach((song) => {
     songs.push({...song.data(), id: song.id})
   })
 

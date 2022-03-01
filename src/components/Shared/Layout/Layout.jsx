@@ -50,7 +50,7 @@ const Layout = () => {
           </Link>
           <div className='navbar__buttons'>
             <button onClick={handleMenu} className='navbar__buttons__iconbutton navbar__buttons__iconbutton--hide navbar__buttons__iconbutton--mobile-only'>
-              <img src={isMenuOpen ? 'assets/close.svg' : 'assets/menu.svg'} alt={isMenuOpen ? 'Close Menu' : 'Open Menu'}/>
+              <img src={isMenuOpen ? '/assets/close.svg' : '/assets/menu.svg'} alt={isMenuOpen ? 'Close Menu' : 'Open Menu'}/>
             </button>
             <ProfileButton/>
           </div>
