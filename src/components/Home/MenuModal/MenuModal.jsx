@@ -2,9 +2,9 @@ import { useModal } from '../../../contexts/MenuModalContext';
 import './MenuModal.scss'
 
 const MenuModal = ({children, position}) => {
-  const modal = useModal()
+  const { hideModal } = useModal()
   return (
-    <div className="menumodal" onClick={modal.hideModal}>
+    <div className="menumodal" onClick={hideModal}>
       <div className='menumodal__item' 
         style={{
           top: position.y,

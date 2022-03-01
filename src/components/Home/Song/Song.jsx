@@ -5,9 +5,10 @@ import { useMusic } from '../../../contexts/MusicContext';
 import './Song.scss'
 
 const Song = ({song}) => {
+  const songRef = useRef()
+
   const { handleAddingSongToQueue, handleChangingSong } = useMusic()
   const { togglePlaylistModal, showModal } = useModal()
-  const songRef = useRef()
   
   const handleShowModal = () => {
     const { x, y, height, width } = songRef.current.getBoundingClientRect()
@@ -17,7 +18,15 @@ const Song = ({song}) => {
         <button onClick={() => handleAddingSongToQueue(song)}>Dodaj do kolejki</button>
       </>
     )
-    showModal({modalChildren: children, pos: {x: x+(width/2), y: y+(height/1.25)}, songId: song.id})
+    showModal(
+      {
+        modalChildren: children, 
+        pos: {
+          x: x+(width/2), 
+          y: y+(height/1.25)
+        }, 
+        songId: song.id
+      })
   }
 
   const { artists, title, photoUrl } = song

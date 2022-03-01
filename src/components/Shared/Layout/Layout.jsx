@@ -4,12 +4,12 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext'
 import { MusicProvider } from '../../../contexts/MusicContext';
 import { UserProvider } from '../../../contexts/UserContext';
+import { getUserPlaylists } from '../../../services/database';
 
 import ProfileButton from '../ProfileButton/ProfileButton';
 import LayoutFooter from './LayoutFooter';
 
 import './Layout.scss'
-import { getUserPlaylists } from '../../../services/database';
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

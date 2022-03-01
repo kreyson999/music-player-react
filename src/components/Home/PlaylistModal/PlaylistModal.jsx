@@ -5,19 +5,20 @@ import { addSongToPlaylist, createPlaylist, getUserPlaylists } from "../../../se
 
 import "./PlaylistModal.scss"
 
-const PlaylistModal = ({togglePlaylistModal, songId}) => {
+const PlaylistModal = ({ togglePlaylistModal, songId }) => {
   const { uid } = useAuth()
   const [playlists, setPlaylists] = useState([])
   const [shouldUpdate, setShouldUpdate] = useState(true)
-  const [canCreateMorePlaylists, setCanCreateMorePlaylists] = useState(false)
+  const [canHaveMorePlaylists, setCanHaveMorePlaylists] = useState(false)
 
   const handleCreatePlaylist = async () => {
-    if (!canCreateMorePlaylists) return
-    const returnedVal = await createPlaylist(uid)
+    // check if the user has more than 3 playlists
+    if (!canHaveMorePlaylists) return
+    
+    const isCompleted = await createPlaylist(uid)
     // returned value true means that everything went fine and 
     // we should just update user playlists
-    if (returnedVal === true) {
-      // update
+    if (isCompleted === true) {
       setShouldUpdate(true)
     }
   }
@@ -28,23 +29,19 @@ const PlaylistModal = ({togglePlaylistModal, songId}) => {
   }
 
   useEffect(() => {
-    let mounted = true
+    let isMounted = true
     if (uid && shouldUpdate) {
-      async function getUserPlaylistsFromDb() {
-        const playlistsFromDb = await getUserPlaylists(uid)
-        if (mounted) {
-          if (playlistsFromDb.length > 2) {
-            setCanCreateMorePlaylists(false)
-          } else {
-            setCanCreateMorePlaylists(true)
-          }
-          setPlaylists(playlistsFromDb)
+      async function getUserPlaylistsFromDatabase() {
+        const playlistsFromDatabase = await getUserPlaylists(uid)
+        if (isMounted) {
+          setCanHaveMorePlaylists(playlistsFromDatabase.length < 3)
+          setPlaylists(playlistsFromDatabase)
           setShouldUpdate(false)
         }
       }
-      getUserPlaylistsFromDb()
+      getUserPlaylistsFromDatabase()
     }
-    return () => mounted = false
+    return () => isMounted = false
   }, [uid, shouldUpdate])
   
   return (
@@ -59,22 +56,25 @@ const PlaylistModal = ({togglePlaylistModal, songId}) => {
         </button>
         <hr className="playlistmodal__container__hr"/>
         <div className="playlistmodal__container__playlists">
-          {playlists.map((playlist, index) => (
-            <div key={index} className="playlistmodal__container__playlists__container">
-              <span className="playlistmodal__container__playlists__container__title">{playlist.title}</span>
-              {playlist.songs.includes(songId) ? (
-                <button
-                className="playlistmodal__container__playlists__container__button playlistmodal__container__playlists__container__button--include">
-                  <img src="assets/check.svg" alt="Playlist contain that song"/>
-                </button>
-              ) : (
-                <button onClick={() => handleAddSongToPlaylist(playlist)} 
-                className="playlistmodal__container__playlists__container__button">
-                  <img src="assets/plus.svg" alt="Add to playlist"/>
-                </button>
-              )}
-            </div>
-          ))}
+          {playlists.map((playlist, index) => {
+            const { title, songs } = playlist
+            return (
+              <div key={index} className="playlistmodal__container__playlists__container">
+                <span className="playlistmodal__container__playlists__container__title">{title}</span>
+                {songs.includes(songId) ? (
+                  <button
+                  className="playlistmodal__container__playlists__container__button playlistmodal__container__playlists__container__button--include">
+                    <img src="assets/check.svg" alt="Playlist contain that song"/>
+                  </button>
+                ) : (
+                  <button onClick={() => handleAddSongToPlaylist(playlist)} 
+                  className="playlistmodal__container__playlists__container__button">
+                    <img src="assets/plus.svg" alt="Add to playlist"/>
+                  </button>
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

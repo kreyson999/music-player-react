@@ -6,11 +6,7 @@ const ProfileButton = () => {
   const user = useUser()
   
   const handleSignOut = async () => {
-    try {
-      await logout()
-    } catch (error) {
-      console.log(error)
-    }
+    await logout()
   }
 
   return (
