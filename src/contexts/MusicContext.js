@@ -18,17 +18,17 @@ export function MusicProvider({children}) {
   const [volume, setVolume] = useState(0.5)
 
   const handlePlayThePlaylist = (playlist) => {
-    if (playlist.title === currentPlaylist?.title) return
+    // if (playlist.title === currentPlaylist?.title) return
     handleClearingQueue()
 
     const currentPlaylistSongs = [...playlist.songs] 
     const nextSongInThePlaylist = currentPlaylistSongs.shift()
 
     setCurrentSong(nextSongInThePlaylist)
-    setCurrentPlaylist(state => ({
+    setCurrentPlaylist({
       ...playlist,
       songs: currentPlaylistSongs
-    }))
+    })
   }
 
   const handleClearingQueue = () => {
@@ -53,7 +53,7 @@ export function MusicProvider({children}) {
   }
 
   const handleSkipToTheNextSong = useCallback(() => {
-    if (queue.length < 1 || !currentPlaylist) {
+    if (queue.length < 1 && currentPlaylist?.songs?.length < 1 ) {
       setIsPlaying(false)
       return
     }
@@ -65,7 +65,7 @@ export function MusicProvider({children}) {
       setHistory([...history, currentSong])
       setCurrentSong(nextSongInTheQueue)
     } else if (queue.length === 0 && currentPlaylist.songs.length > 0) {
-      const currentPlaylistSongs = [...queue]
+      const currentPlaylistSongs = [...currentPlaylist.songs]
       const nextSongInThePlaylist = currentPlaylistSongs.shift()
 
       setCurrentPlaylist(state => ({
