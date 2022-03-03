@@ -1,0 +1,38 @@
+.input {
+  margin-bottom: 0.5rem;
+  &__container {
+    background-color: var(--light-gray-color);
+    padding: 0.5rem 1rem;
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: var(--button-border-radius);
+    input {
+      font-size: 1rem;
+      border: none;
+      outline: none;
+      color: var(--input-text-color);
+      width: 100%;
+      background-color: transparent;
+      &::placeholder {
+        color: var(--gray-color);
+      }
+    }
+    &:focus-within {
+      border: 2px solid var(--primary-blue-color);
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &__error {
+    margin-left: 1rem;
+    font-size: smaller;
+    color: var(--error-color);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .input {
+    margin-bottom: 0.75rem;
+  }
+}

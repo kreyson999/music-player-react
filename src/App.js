@@ -4,9 +4,10 @@ import { AuthProvider } from './contexts/AuthContext';
 
 import Layout from "./components/Shared/Layout/Layout";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
 import PlaylistPage from "./pages/PlaylistPage";
 import QueuePage from "./pages/QueuePage";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
 
 function App() { 
   return (
@@ -17,7 +18,8 @@ function App() {
           <Route path="/queue" element={<QueuePage/>}/>
           <Route path="/playlist/:id" element={<PlaylistPage/>}/>
         </Route>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/signup" element={<SignUpPage/>}/>
+        <Route path="/signin" element={<SignInPage/>}/>
       </Routes>
     </AuthProvider>
 

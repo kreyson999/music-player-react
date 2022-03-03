@@ -1,8 +1,12 @@
 :root {
-  --light-gray-color: #c1c1c1;
-  --dark-gray-color: #3f3f3f;
-  --primary-blue-color: #0066ff;
-  --dark-primary-blue-color: #0e5092;
+  --background-color: #313335;
+  --light-gray-color: #51565b;
+  --gray-color: #bababa;
+  --border-color: #fff;
+  --button-border-radius: 1.25rem;
+  --primary-blue-color: #00a3ff;
+  --input-text-color: #c1ceda;
+  --error-color: #c04545;
 }
 
 *,
@@ -14,12 +18,22 @@
 }
 
 body {
+  background-color: var(--background-color);
   font-size: 16px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 #root {
   max-width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+button,
+input {
+  font-family: "Inter", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-blue-color);
 }

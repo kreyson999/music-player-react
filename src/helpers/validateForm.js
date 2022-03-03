@@ -1,7 +1,7 @@
 export const validateInput = (input, setError) => {
 
-  const hasError = () => {
-    setError(state => ({...state, [input.name]: true}))
+  const hasError = (message) => {
+    setError(state => ({...state, [input.name]: message}))
     return true
   }
 
@@ -13,19 +13,19 @@ export const validateInput = (input, setError) => {
   switch (input.name) {
     case "name":
       if (input.value.length < 6) {
-        return hasError()
+        return hasError('Nickname should have atleast 6 characters.')
       } else {
         return hasNotError()
       }
     case "email":
       if (!input.value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
-        return hasError()
+        return hasError('It is not a valid e-mail!')
       } else {
         return hasNotError()
       }
     case "password":
       if (input.value.length < 8) {
-        return hasError()
+        return hasError('Password should have atleast 8 characters.')
       } else {
         return hasNotError()
       }
