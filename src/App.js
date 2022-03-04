@@ -2,12 +2,12 @@ import { Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from './contexts/AuthContext';
 
-import Layout from "./components/Shared/Layout/Layout";
 import HomePage from "./pages/HomePage";
 import PlaylistPage from "./pages/PlaylistPage";
 import QueuePage from "./pages/QueuePage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
+import { Layout } from "./components";
 
 function App() { 
   return (

@@ -1,0 +1,9 @@
+.playbutton {
+  display: grid;
+  border-radius: 50%;
+  width: min-content;
+  height: min-content;
+  padding: 0.5rem;
+  background-color: var(--primary-blue-color);
+  box-shadow: 0 0 0.5rem 0px var(--primary-blue-color);
+}

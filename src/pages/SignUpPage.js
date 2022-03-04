@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
+import { signInWithGoogle, signUpWithEmail } from '../services/auth';
 import { useAuth } from '../contexts/AuthContext'
+import { validateForm } from '../helpers/validateForm';
 
 import { Button, Input } from '../components'
-import '../styles/LoginPage.scss'
-import { validateForm } from '../helpers/validateForm';
-import { signInWithGoogle, signUpWithEmail } from '../services/auth';
+import '../styles/AuthPage.scss'
 
 function SignUpPage() {
   const currentUser = useAuth()

@@ -1,0 +1,67 @@
+.navbar {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  z-index: 999;
+  &__container {
+    border-right: 1px solid var(--border-color);
+    width: min-content;
+    height: 100%;
+    background-color: var(--light-gray-color);
+    display: flex;
+    flex-direction: column;
+    &__links {
+      padding: 1.5rem 0;
+      display: grid;
+      place-content: center;
+      &__link {
+        display: grid;
+      }
+    }
+    &__playlists {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      flex-grow: 1;
+      padding: 1.5rem 0;
+      &__link {
+        display: grid;
+        place-content: center;
+        border-radius: 50%;
+        padding: 0.4rem;
+        background-color: var(--input-text-color);
+        margin-bottom: 0.5rem;
+      }
+    }
+    &__settings {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding: 0.5rem;
+      &__volume {
+        display: none;
+      }
+      &__avatar {
+        display: grid;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border-color);
+    }
+  }
+  &--open {
+    display: flex;
+  }
+}
