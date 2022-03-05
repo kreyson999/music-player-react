@@ -3,13 +3,14 @@ import { PlayButton, ProgressBar, SongInRow } from "../";
 
 import './MusicBar.scss'
 
-const MusicBar = ({isMusicBarOpen, handleToggleMusicBar}) => {
+const MusicBar = ({isMusicBarOpen, onClick}) => {
   
-  const { currentSong, queue, handleSettingSongCurrentTime, handlePlayingStatus, isPlaying } = useMusic()
+  const { currentSong, queue, handleSettingSongCurrentTime, handlePlayingStatus, 
+    isPlaying, handleSkipToTheNextSong, handleSkipToThePreviousSong, currentPlaylist } = useMusic()
 
   return currentSong.duration > 0 && (
     <aside className={`musicbar ${isMusicBarOpen ? 'musicbar--open' : ''}`}>
-      <button onClick={handleToggleMusicBar} className="musicbar__closebutton">
+      <button onClick={onClick} className="musicbar__closebutton">
         <img src="/music-player-react/assets/icons/close.svg" alt="Close Musicbar" />
       </button>
       <div className="musicbar__current">
@@ -25,11 +26,15 @@ const MusicBar = ({isMusicBarOpen, handleToggleMusicBar}) => {
         )}
         <div className="musicbar__current__controls">
           <div className="musicbar__current__controls__buttons">
-            <button className="musicbar__current__controls__buttons__iconbutton">
+            <button 
+            onClick={handleSkipToThePreviousSong}
+            className="musicbar__current__controls__buttons__iconbutton">
               <img src="/music-player-react/assets/icons/skip-back.svg" alt="Skip back" />
             </button>
             <PlayButton handler={handlePlayingStatus} isPlaying={isPlaying}/>
-            <button className="musicbar__current__controls__buttons__iconbutton">
+            <button 
+            onClick={handleSkipToTheNextSong}
+            className="musicbar__current__controls__buttons__iconbutton">
               <img src="/music-player-react/assets/icons/skip-forward.svg" alt="Skip forward" />
             </button>
           </div>
@@ -44,16 +49,26 @@ const MusicBar = ({isMusicBarOpen, handleToggleMusicBar}) => {
         </div>
       </div>
       <hr />
-      <div className="musicbar__queue">
-        <h2 className="musicbar__sectiontitle"><span>Your</span> queue</h2>
-        {queue.length > 0 ? 
-          queue.map((song) => (
-            <SongInRow song={song}/>
-          )
-        ) : (
-          <span>The Queue is currently empty.</span>
-        )}
-      </div>
+      {(queue.length > 0 || !currentPlaylist) && (
+        <div className="musicbar__queue">
+          <h2 className="musicbar__sectiontitle"><span>Your</span> queue</h2>
+          {queue.length > 0 ? 
+            queue.map((song) => (
+              <SongInRow song={song} key={song.id}/>
+            )
+          ) : (
+            <span className="musicbar__queue__emptymessage">The Queue is currently empty.</span>
+          )}
+        </div>
+      )}
+      {currentPlaylist && (
+        <div className="musicbar__playlist">
+          <h2 className="musicbar__sectiontitle">Next from <span>{currentPlaylist.title}</span></h2>
+          {currentPlaylist.songs.map((song) => (
+            <SongInRow song={song} key={song.id}/>
+          ))}
+        </div>
+      )}
     </aside>
   );
 }

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getPlaylistById, getPlaylistSongs, getUser } from '../services/database'
-import SongRow from '../components/Queue/SongRow/SongRow'
 import '../styles/PlaylistPage.scss'
 import { useMusic } from '../contexts/MusicContext';
 
@@ -82,9 +81,9 @@ function PlaylistPage() {
             </div>
           </div>
           <div className='playlistpage__songs'>
-            {songs.map((song) => (
+            {/* {songs.map((song) => (
               <SongRow key={song.id} song={song}/>
-            ))}
+            ))} */}
           </div>
         </>
       ) : (

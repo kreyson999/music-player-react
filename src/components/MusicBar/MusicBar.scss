@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   &__closebutton {
+    cursor: pointer;
     display: grid;
     place-content: center;
     border: none;
@@ -20,6 +21,8 @@
     background-color: transparent;
   }
   &__sectiontitle {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
     color: white;
     span {
       color: var(--primary-blue-color);
@@ -27,9 +30,10 @@
   }
   &__current {
     padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.25rem;
     &__info {
-      margin: 1rem 0;
+      margin-top: 2.5rem;
+      margin-bottom: 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -46,6 +50,7 @@
         }
       }
       h1 {
+        font-size: 1.4rem;
         color: white;
       }
       span {
@@ -78,5 +83,26 @@
   }
   &__queue {
     padding: 1.5rem;
+    &__emptymessage {
+      color: var(--input-text-color);
+    }
+  }
+  &__playlist {
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .musicbar {
+    flex: 4;
+    border-left: 1px solid var(--border-color);
+    position: relative;
+    top: unset;
+    left: unset;
+    width: unset;
+    height: unset;
+    &__closebutton {
+      display: none;
+    }
   }
 }
