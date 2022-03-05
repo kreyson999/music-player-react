@@ -1,38 +1,11 @@
 .homepage {
   display: flex;
   flex-direction: column;
-
-  &__carousel {
-    display: flex;
-    overflow-x: scroll;
-    padding: 0.35rem 0.5rem 0.5rem 0.5rem;
-
-    &::-webkit-scrollbar {
-      width: 1rem;
-      height: 5px;
-    }
-
-    /* Track */
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    /* Handle */
-    &::-webkit-scrollbar-thumb {
-      border-radius: 1rem;
-      background: var(--dark-primary-blue-color);
-    }
-
-    /* Handle on hover */
-    &::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-blue-color);
-    }
-  }
-}
-@media screen and (min-width: 768px) {
-  .homepage {
-    &__carousel {
-      padding: 0.5rem 1rem 1rem 1rem;
-    }
+  &__recentsongs {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
