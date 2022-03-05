@@ -1,38 +1,56 @@
 import { useEffect, useState } from "react";
 
-import RecentSong from "../components/RecentSong/RecentSong";
-import MenuModalProvider from "../contexts/MenuModalContext";
-import { getSongs } from "../services/database";
+import { getSongs, getUserPlaylists } from "../services/database";
+
+import { Carousel, RecentSong, SongContainer, PlaylistContainer } from "../components";
 import '../styles/HomePage.scss'
+import { useAuth } from "../contexts/AuthContext";
 
 function HomePage() {
+  const userAuth = useAuth()
   const [songs, setSongs] = useState([])
+  const [playlists, setPlaylists] = useState([])
 
   useEffect(() => {
     let isMounted = true
-    async function getSongsFromDatabase() {
-      const data = await getSongs()
-      if (isMounted) {
-        setSongs(data)
+    if (userAuth.uid) {
+      async function getData() {
+        const songs = await getSongs()
+        const playlists = await getUserPlaylists(userAuth.uid)
+        if (isMounted) {
+          setSongs(songs)
+          setPlaylists(playlists)
+        }
       }
+      getData()
     }
-    getSongsFromDatabase()
     return () => isMounted = false
-  }, [])
+  }, [userAuth.uid])
 
   return (
     <div className="homepage">
       <h1 className="page__title">Listen to <span>music</span>.</h1>
-      <MenuModalProvider>
-        <section className="homepage__recentsongs">
+      <section className="homepage__recentsongs">
+        {songs.map((song) => (
+          <RecentSong song={song} key={song.id}/>
+        ))}
+      </section>
+      <section className="homepage__recentlyaddedsongs">
+        <h2 className="homepage__sectiontitle"><span>Recently</span> added songs</h2>
+        <Carousel>
           {songs.map((song) => (
-            <RecentSong song={song} key={song.id}/>
+            <SongContainer key={song.id} song={song}/>
           ))}
-        </section>
-        <section className="homepage__recentlyaddedsongs">
-
-        </section>
-      </MenuModalProvider>
+        </Carousel>
+      </section>
+      <section className="homepage__recentlyaddedsongs">
+        <h2 className="homepage__sectiontitle"><span>Your</span> playlists:</h2>
+        <Carousel>
+          {playlists.map((playlist) => (
+            <PlaylistContainer key={playlist.id} playlist={playlist}/>
+          ))}
+        </Carousel>
+      </section>
     </div>
   );
 }

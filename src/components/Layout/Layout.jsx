@@ -8,6 +8,7 @@ import './Layout.scss'
 import { useEffect, useState } from "react";
 import { Navbar } from "../";
 import { useAuth } from "../../contexts/AuthContext";
+import SongModalProvider from "../../contexts/SongModalContext";
 
 const Layout = () => {
   const userAuth = useAuth()
@@ -57,7 +58,9 @@ const Layout = () => {
           </button>
           <Navbar isOpen={isNavbarOpen} onClick={handleToggleNavbar}/>
           <main className="layout__main">
-            <Outlet/>  
+            <SongModalProvider>
+              <Outlet/>  
+            </SongModalProvider>
           </main>
           {isMusicBarOpen && <MusicBar onClick={handleToggleMusicBar}/>}
           {windowWidth < 768 && <MobileCurrentSong onClick={handleToggleMusicBar}/>}

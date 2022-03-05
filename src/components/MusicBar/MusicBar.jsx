@@ -8,47 +8,49 @@ const MusicBar = ({isMusicBarOpen, onClick}) => {
   const { currentSong, queue, handleSettingSongCurrentTime, handlePlayingStatus, 
     isPlaying, handleSkipToTheNextSong, handleSkipToThePreviousSong, currentPlaylist } = useMusic()
 
-  return currentSong.duration > 0 && (
+  return (
     <aside className={`musicbar ${isMusicBarOpen ? 'musicbar--open' : ''}`}>
       <button onClick={onClick} className="musicbar__closebutton">
         <img src="/music-player-react/assets/icons/close.svg" alt="Close Musicbar" />
       </button>
-      <div className="musicbar__current">
-        <h2 className="musicbar__sectiontitle"><span>Now</span> playing</h2>
-        {currentSong.duration > 0 && (
-          <div className="musicbar__current__info">
-            <div className="musicbar__current__info__image">
-              <img src={currentSong.photoUrl} alt={currentSong.title} />
+      {currentSong.duration > 0 && (
+        <>
+          <div className="musicbar__current">
+            <h2 className="musicbar__sectiontitle"><span>Now</span> playing</h2>
+            <div className="musicbar__current__info">
+              <div className="musicbar__current__info__image">
+                <img src={currentSong.photoUrl} alt={currentSong.title} />
+              </div>
+              <h1>{currentSong.title}</h1>
+              <span>{currentSong.artists.join(', ')}</span>
             </div>
-            <h1>{currentSong.title}</h1>
-            <span>{currentSong.artists.join(', ')}</span>
+            <div className="musicbar__current__controls">
+              <div className="musicbar__current__controls__buttons">
+                <button 
+                onClick={handleSkipToThePreviousSong}
+                className="musicbar__current__controls__buttons__iconbutton">
+                  <img src="/music-player-react/assets/icons/skip-back.svg" alt="Skip back" />
+                </button>
+                <PlayButton handler={handlePlayingStatus} isPlaying={isPlaying}/>
+                <button 
+                onClick={handleSkipToTheNextSong}
+                className="musicbar__current__controls__buttons__iconbutton">
+                  <img src="/music-player-react/assets/icons/skip-forward.svg" alt="Skip forward" />
+                </button>
+              </div>
+              <div className="musicbar__current__progressbar">
+                <ProgressBar
+                  withValues={true}
+                  value={currentSong.currentTime}
+                  maxValue={currentSong.duration}
+                  onChange={(e) => handleSettingSongCurrentTime(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
-        )}
-        <div className="musicbar__current__controls">
-          <div className="musicbar__current__controls__buttons">
-            <button 
-            onClick={handleSkipToThePreviousSong}
-            className="musicbar__current__controls__buttons__iconbutton">
-              <img src="/music-player-react/assets/icons/skip-back.svg" alt="Skip back" />
-            </button>
-            <PlayButton handler={handlePlayingStatus} isPlaying={isPlaying}/>
-            <button 
-            onClick={handleSkipToTheNextSong}
-            className="musicbar__current__controls__buttons__iconbutton">
-              <img src="/music-player-react/assets/icons/skip-forward.svg" alt="Skip forward" />
-            </button>
-          </div>
-          <div className="musicbar__current__progressbar">
-            <ProgressBar
-              withValues={true}
-              value={currentSong.currentTime}
-              maxValue={currentSong.duration}
-              onChange={(e) => handleSettingSongCurrentTime(e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-      <hr />
+          <hr />
+        </>
+      )}
       {(queue.length > 0 || !currentPlaylist) && (
         <div className="musicbar__queue">
           <h2 className="musicbar__sectiontitle"><span>Your</span> queue</h2>

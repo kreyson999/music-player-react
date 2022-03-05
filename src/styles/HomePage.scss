@@ -1,11 +1,24 @@
 .homepage {
   display: flex;
   flex-direction: column;
+  &__sectiontitle {
+    color: white;
+    margin-left: 0.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    span {
+      color: var(--primary-blue-color);
+    }
+  }
   &__recentsongs {
-    box-sizing: border-box;
     padding: 0.5rem;
     display: grid;
     gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
+  }
+  &__recentlyaddedsongs {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
   }
 }

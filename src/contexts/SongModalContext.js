@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react'
-import MenuModal from '../components/Home/MenuModal/MenuModal';
-import PlaylistModal from '../components/Home/PlaylistModal/PlaylistModal';
+import { SongModal, PlaylistModal } from '../components';
 
-const MenuModalContext = React.createContext()
+const SongModalContext = React.createContext()
 
 export const useModal = () => {
-  return useContext(MenuModalContext)
+  return useContext(SongModalContext)
 }
 
-const MenuModalProvider = ({children}) => {
+const SongModalProvider = ({children}) => {
   const [songId, setSongId] = useState()
   const [position, setPosition] = useState({x: 0, y:0})
   const [isVisible, setIsVisible] = useState(false)
@@ -31,21 +30,21 @@ const MenuModalProvider = ({children}) => {
   }
   
   return (
-    <MenuModalContext.Provider value={{showModal, hideModal, togglePlaylistModal}} >
+    <SongModalContext.Provider value={{showModal, hideModal, togglePlaylistModal}} >
       {isVisible && (
-        <MenuModal 
+        <SongModal 
           position={{
             x: position.x,
             y: position.y,
           }}
         >
           {modalChildren}
-        </MenuModal>)}
+        </SongModal>)}
       {isPlaylistVisible && 
       <PlaylistModal songId={songId} togglePlaylistModal={togglePlaylistModal}/>}
       {children}
-    </MenuModalContext.Provider>
+    </SongModalContext.Provider>
   );
 }
  
-export default MenuModalProvider;
+export default SongModalProvider;

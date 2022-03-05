@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { useAuth } from '../../../contexts/AuthContext'
-import { addSongToPlaylist, createPlaylist, getUserPlaylists } from "../../../services/database";
+import { useAuth } from '../../contexts/AuthContext'
+import { addSongToPlaylist, createPlaylist, getUserPlaylists } from "../../services/database";
 
 import "./PlaylistModal.scss"
 
@@ -48,10 +48,10 @@ const PlaylistModal = ({ togglePlaylistModal, songId }) => {
     <div className="playlistmodal">
       <div className="playlistmodal__container">
         <button className="playlistmodal__container__iconbutton" onClick={togglePlaylistModal}>
-          <img src="/assets/close.svg" alt="Close Modal"/>
+          <img src="/music-player-react/assets/icons/close.svg" alt="Close Modal"/>
         </button>
         <button onClick={handleCreatePlaylist} className="playlistmodal__container__newbutton">
-          <img src="/assets/plus-circle.svg" alt="Create new playlist"/>
+          <img src="/music-player-react/assets/icons/plus-circle.svg" alt="Create new playlist"/>
           <span>Create new playlist</span>
         </button>
         <hr className="playlistmodal__container__hr"/>
@@ -64,12 +64,12 @@ const PlaylistModal = ({ togglePlaylistModal, songId }) => {
                 {songs.includes(songId) ? (
                   <button
                   className="playlistmodal__container__playlists__container__button playlistmodal__container__playlists__container__button--include">
-                    <img src="/assets/check.svg" alt="Playlist contain that song"/>
+                    <img src="/music-player-react/assets/icons/check.svg" alt="Playlist contain that song"/>
                   </button>
                 ) : (
                   <button onClick={() => handleAddSongToPlaylist(playlist)} 
                   className="playlistmodal__container__playlists__container__button">
-                    <img src="/assets/plus.svg" alt="Add to playlist"/>
+                    <img src="/music-player-react/assets/icons/plus.svg" alt="Add to playlist"/>
                   </button>
                 )}
               </div>

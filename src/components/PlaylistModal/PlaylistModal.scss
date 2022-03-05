@@ -11,11 +11,12 @@
   &__container {
     width: 85vw;
     position: relative;
-    padding: 1rem;
     border-radius: 0.5rem;
-    background-color: var(--dark-gray-color);
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
 
     &__iconbutton {
+      padding: 0.5rem 0.5rem 0 0.5rem;
       width: 100%;
       justify-content: flex-end;
       display: flex;
@@ -25,7 +26,7 @@
       cursor: pointer;
     }
     &__newbutton {
-      margin: 0 0.5rem;
+      padding: 0 1rem 0.5rem 1rem;
       cursor: pointer;
       background-color: transparent;
       border: none;
@@ -34,16 +35,16 @@
       span {
         margin-left: 0.25rem;
         font-size: 1rem;
-        font-family: "Roboto", sans-serif;
         color: white;
       }
     }
     &__hr {
       margin: 0.5rem 0;
       border: none;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid var(--border-color);
     }
     &__playlists {
+      padding: 0.5rem;
       display: flex;
       flex-direction: column;
       &__container {
@@ -52,7 +53,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: var(--light-gray-color);
+        color: var(--gray-color);
         &__button {
           cursor: pointer;
           color: white;
@@ -60,7 +61,6 @@
           border-radius: 0.5rem;
           border: none;
           font-size: 1rem;
-          font-family: "Roboto", sans-serif;
           display: grid;
           padding: 0.25rem;
           place-content: center;
@@ -70,7 +70,7 @@
         }
         &:hover {
           background-color: var(--light-gray-color);
-          color: var(--dark-gray-color);
+          color: var(--primary-blue-color);
         }
       }
     }
