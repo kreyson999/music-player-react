@@ -24,6 +24,7 @@ body {
   font-family: "Inter", sans-serif;
 }
 #root {
+  overflow-x: hidden;
   max-width: 100vw;
   height: 100vh;
   display: flex;

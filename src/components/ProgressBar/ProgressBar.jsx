@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { getFormattedTime } from '../../../helpers/getFormattedTime'
+import { getFormattedTime } from '../../helpers/getFormattedTime'
 
 import './ProgressBar.scss'
 

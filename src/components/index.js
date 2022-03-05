@@ -6,3 +6,5 @@ export { default as MobileCurrentSong } from './MobileCurrentSong/MobileCurrentS
 export { default as Navbar } from './Navbar/Navbar'
 export { default as Loader } from './Loader/Loader'
 export { default as MusicBar } from './MusicBar/MusicBar'
+export { default as ProgressBar } from './ProgressBar/ProgressBar'
+export { default as SongInRow } from './SongInRow/SongInRow'

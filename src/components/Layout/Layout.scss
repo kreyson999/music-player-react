@@ -6,6 +6,7 @@
     flex-grow: 1;
   }
   &__menubutton {
+    z-index: 50;
     top: 0.5rem;
     right: 0.5rem;
     position: absolute;

@@ -12,6 +12,7 @@ import { useAuth } from "../../contexts/AuthContext";
 const Layout = () => {
   const userAuth = useAuth()
   const navigate = useNavigate()
+  const [isMusicBarOpen, setIsMusicBarOpen] = useState(false)
   const [isNavbarOpen, setIsNavbarOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   
@@ -36,11 +37,9 @@ const Layout = () => {
           </button>
           <Navbar isOpen={isNavbarOpen} onClick={handleToggleNavbar}/>
           <main className="layout__main">
-            <div className="layout__main__page">
-              <Outlet/>  
-            </div>
+            <Outlet/>  
           </main>
-          <MusicBar/>
+          {isMusicBarOpen && <MusicBar/>}
           <MobileCurrentSong/>
         </div>
       </MusicProvider>
