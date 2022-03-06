@@ -14,7 +14,7 @@ function HomePage() {
 
   useEffect(() => {
     let isMounted = true
-    if (userAuth.uid) {
+    if (userAuth?.uid) {
       async function getData() {
         const songs = await getSongs()
         const playlists = await getUserPlaylists(userAuth.uid)
@@ -28,7 +28,7 @@ function HomePage() {
       getData()
     }
     return () => isMounted = false
-  }, [userAuth.uid])
+  }, [userAuth?.uid])
 
   return (
     <div className="homepage">

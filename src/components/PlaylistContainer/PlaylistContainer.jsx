@@ -28,7 +28,7 @@ const PlaylistContainer = ({playlist}) => {
   }, [playlist?.songs])
 
   const handlePlayPlaylist = () => {
-    if (!playlist && songs.length === 0) return
+    if (!playlist || songs.length === 0) return
     
     const data = {
       ...playlist,

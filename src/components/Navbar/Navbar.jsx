@@ -16,7 +16,7 @@ const Navbar = ({isOpen, onClick}) => {
 
   useEffect(() => {
     let isMounted = true
-    if (user) {
+    if (user && userAuth?.uid) {
       async function getUserPlaylistsFromDatabase() {
         const playlistsFromDatabase = await getUserPlaylists(userAuth.uid)
         if (isMounted) {
@@ -27,7 +27,7 @@ const Navbar = ({isOpen, onClick}) => {
       getUserPlaylistsFromDatabase()
     }
     return () => isMounted = false
-  }, [user, userAuth.uid])
+  }, [user, userAuth?.uid])
 
   const handleSignOut = async () => {
     await logout()

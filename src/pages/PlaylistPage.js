@@ -11,10 +11,10 @@ function PlaylistPage() {
   const [songs, setSongs] = useState([])
   const [author, setAuthor] = useState()
   const { id } = useParams()
-  const { handlePlayThePlaylist } = useMusic()
+  const { handlePlayThePlaylist, handlePlayThePlaylistWithSong } = useMusic()
 
   const handlePlayPlaylist = () => {
-    if (!playlist && songs.length === 0) return
+    if (!playlist || songs.length === 0) return
     
     const data = {
       ...playlist,
@@ -90,13 +90,19 @@ function PlaylistPage() {
           </section>
           <hr />
           <section className='playlistpage__songs'>
-            <h2><span>Songs</span> in playlist:</h2>
+            <h2><span>Songs</span> in the playlist:</h2>
             {songs.length === 0 ? (
               <span>This playlist does not currently contain any songs.</span>
             ) : (
               <div className='playlistpage__songs__list'>
-                {songs.map((song) => (
-                  <SongInRow song={song} key={song.id} bgLight={true}/>
+                {songs.map((song, index) => (
+                  <SongInRow 
+                  index={index + 1}
+                  song={song} 
+                  key={song.id} 
+                  bgLight={true}
+                  onClick={() => handlePlayThePlaylistWithSong({...playlist, songs: songs}, index)}
+                  />
                 ))}
               </div>
             )}

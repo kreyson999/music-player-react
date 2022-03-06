@@ -10,6 +10,7 @@
   background-color: var(--light-gray-color);
   display: flex;
   flex-direction: column;
+  scrollbar-color: #00a2ff6e rgba(255, 255, 255, 0);
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -78,6 +79,7 @@
         display: flex;
         justify-content: center;
         &__iconbutton {
+          cursor: pointer;
           background-color: transparent;
           border: none;
           &:first-child {

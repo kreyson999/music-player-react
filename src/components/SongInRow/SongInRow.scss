@@ -36,6 +36,10 @@
     background-color: transparent;
     outline: none;
   }
+  &__index {
+    margin-left: 0.5rem;
+    color: var(--input-text-color);
+  }
   &:hover {
     background-color: var(--background-color);
   }

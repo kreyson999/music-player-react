@@ -31,6 +31,51 @@ export function MusicProvider({children}) {
     })
   }
 
+  const handlePlayThePlaylistWithSong = (playlist, index) => {
+    handleClearingQueue()
+
+    // const songsBeforeIndex = playlist.songs.slice(0, index)
+    const songsAfterIndex = playlist.songs.slice(index)
+    const nextSong = songsAfterIndex.shift()
+
+    setCurrentSong(nextSong)
+    setCurrentPlaylist({
+      ...playlist,
+      songs: songsAfterIndex
+    })
+  }
+
+  const handlePlaySongFromThePlaylist = (index) => {
+    const playlistBeforeIndex = currentPlaylist.songs.slice(0, index);
+    const playlistAfterIndex = currentPlaylist.songs.slice(index);
+    const nextSong = playlistAfterIndex.shift()
+
+    setCurrentPlaylist({
+      ...currentPlaylist,
+      songs: playlistAfterIndex
+    })
+    if (currentSong !== null) {
+      setHistory([...history, currentSong, ...playlistBeforeIndex])
+    } else {
+      setHistory([...history, ...playlistBeforeIndex])
+    }
+    setCurrentSong(nextSong)
+  }
+
+  const handlePlaySongFromTheQueue = (index) => {
+    const queueBeforeIndex = queue.slice(0, index);
+    const queueAfterIndex = queue.slice(index);
+    const nextSong = queueAfterIndex.shift()
+
+    setQueue(queueAfterIndex)
+    if (currentSong !== null) {
+      setHistory([...history, currentSong, ...queueBeforeIndex])
+    } else {
+      setHistory([...history, ...queueBeforeIndex])
+    }
+    setCurrentSong(nextSong)
+  }
+
   const handleClearingQueue = () => {
     setQueue([])
   }
@@ -203,6 +248,9 @@ export function MusicProvider({children}) {
         handleSkipToTheNextSong,
         handleSkipToThePreviousSong,
         handlePlayThePlaylist,
+        handlePlaySongFromTheQueue,
+        handlePlaySongFromThePlaylist,
+        handlePlayThePlaylistWithSong,
       }}>
         {children}
     </MusicContext.Provider>

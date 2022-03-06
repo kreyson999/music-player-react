@@ -6,7 +6,8 @@ import './MusicBar.scss'
 const MusicBar = ({isMusicBarOpen, onClick}) => {
   
   const { currentSong, queue, handleSettingSongCurrentTime, handlePlayingStatus, 
-    isPlaying, handleSkipToTheNextSong, handleSkipToThePreviousSong, currentPlaylist } = useMusic()
+    isPlaying, handleSkipToTheNextSong, handleSkipToThePreviousSong, currentPlaylist, 
+    handlePlaySongFromTheQueue, handlePlaySongFromThePlaylist } = useMusic()
 
   return (
     <aside className={`musicbar ${isMusicBarOpen ? 'musicbar--open' : ''}`}>
@@ -55,8 +56,8 @@ const MusicBar = ({isMusicBarOpen, onClick}) => {
         <div className="musicbar__queue">
           <h2 className="musicbar__sectiontitle"><span>Your</span> queue</h2>
           {queue.length > 0 ? 
-            queue.map((song) => (
-              <SongInRow song={song} key={song.id}/>
+            queue.map((song, index) => (
+              <SongInRow song={song} key={index} index={index + 1} onClick={() => handlePlaySongFromTheQueue(index)}/>
             )
           ) : (
             <span className="musicbar__queue__emptymessage">The Queue is currently empty.</span>
@@ -66,8 +67,8 @@ const MusicBar = ({isMusicBarOpen, onClick}) => {
       {currentPlaylist && (
         <div className="musicbar__playlist">
           <h2 className="musicbar__sectiontitle">Next from <span>{currentPlaylist.title}</span></h2>
-          {currentPlaylist.songs.map((song) => (
-            <SongInRow song={song} key={song.id}/>
+          {currentPlaylist.songs.map((song, index) => (
+            <SongInRow song={song} key={index} index={queue.length + index + 1} onClick={() => handlePlaySongFromThePlaylist(index)}/>
           ))}
         </div>
       )}
