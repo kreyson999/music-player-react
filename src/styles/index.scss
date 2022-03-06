@@ -47,3 +47,9 @@ a {
     color: var(--primary-blue-color);
   }
 }
+
+@media screen and (min-width: 768px) {
+  .page__title {
+    margin: 1rem;
+  }
+}

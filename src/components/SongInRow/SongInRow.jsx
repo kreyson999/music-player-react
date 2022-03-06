@@ -1,11 +1,11 @@
 import './SongInRow.scss'
 
-const SongInRow = ({song}) => {
+const SongInRow = ({song, bgLight=false}) => {
 
   const { photoUrl, title, artists } = song
 
   return (
-    <div className="songinrow">
+    <div className={`songinrow ${bgLight ? 'songinrow--bglight' : ''}`}>
       <div className="songinrow__image">
         <img src={photoUrl} alt={title} />
       </div>

@@ -10,6 +10,19 @@
   background-color: var(--light-gray-color);
   display: flex;
   flex-direction: column;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.5rem;
+    background: #00a2ff6e;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-blue-color);
+  }
   &__closebutton {
     cursor: pointer;
     display: grid;

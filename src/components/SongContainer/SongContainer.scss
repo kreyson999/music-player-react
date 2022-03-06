@@ -59,3 +59,11 @@
 .songcontainer:hover .songcontainer__image__playbutton {
   opacity: 1;
 }
+
+@media screen and (min-width: 768px) {
+  .songcontainer {
+    &:first-child {
+      margin-left: 1rem;
+    }
+  }
+}

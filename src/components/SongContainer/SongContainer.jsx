@@ -7,7 +7,7 @@ import { PlayButton } from '../';
 
 import './SongContainer.scss'
 
-const SongContainer = ({song}) => {
+const SongContainer = ({song, bgLight=false}) => {
   const songRef = useRef()
   const { photoUrl, title, artists } = song
   const { handleChangingSong, handleAddingSongToQueue } = useMusic()
@@ -37,7 +37,7 @@ const SongContainer = ({song}) => {
   }
 
   return (
-    <div ref={songRef} className="songcontainer">
+    <div ref={songRef} className={`songcontainer ${bgLight ? 'songcontainer--bglight' : ''}`}>
       <div className="songcontainer__image">
         <img src={photoUrl} alt={title} />
         <div className="songcontainer__image__playbutton">

@@ -37,3 +37,22 @@
     display: none;
   }
 }
+
+@media screen and (min-width: 1100px) {
+  .recentsong {
+    cursor: pointer;
+    &__info {
+      max-width: unset;
+    }
+    .playbutton {
+      transition: opacity 300ms;
+      display: flex;
+      opacity: 0;
+    }
+    &:hover {
+      .playbutton {
+        opacity: 1;
+      }
+    }
+  }
+}
