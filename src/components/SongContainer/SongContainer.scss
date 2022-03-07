@@ -67,3 +67,10 @@
     }
   }
 }
+@media screen and (min-width: 1100px) {
+  .songcontainer {
+    &:first-child {
+      margin-left: 1.75rem;
+    }
+  }
+}

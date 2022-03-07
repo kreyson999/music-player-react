@@ -4,29 +4,22 @@ import { useParams } from 'react-router-dom';
 import { getPlaylistById, getPlaylistSongs, getUser } from '../services/database'
 import '../styles/PlaylistPage.scss'
 import { useMusic } from '../contexts/MusicContext';
-import { Loader, PlayButton, SongInRow } from '../components';
+import { EditPlaylistModal, Loader, PlayButton, SongInRow } from '../components';
+import { useAuth } from '../contexts/AuthContext';
 
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState()
   const [songs, setSongs] = useState([])
   const [author, setAuthor] = useState()
+  const [isEditPlaylistModalOpen, setIsEditPlaylistModalOpen] = useState(false)
+  const [shouldUpdate, setShouldUpdate] = useState(false)
   const { id } = useParams()
   const { handlePlayThePlaylist, handlePlayThePlaylistWithSong } = useMusic()
-
-  const handlePlayPlaylist = () => {
-    if (!playlist || songs.length === 0) return
-    
-    const data = {
-      ...playlist,
-      songs: songs
-    }
-    
-    handlePlayThePlaylist(data)
-  }
+  const auth = useAuth()
   
   useEffect(() => {
     let isMounted = true
-    if (id) {
+    if (id || shouldUpdate) {
       async function getPlaylist() {
         const data = await getPlaylistById(id)
         if (isMounted) {
@@ -41,7 +34,7 @@ function PlaylistPage() {
       setPlaylist()
       setAuthor()
     }
-  }, [id])
+  }, [id, shouldUpdate])
 
   useEffect(() => {
     let isMounted = true
@@ -71,72 +64,68 @@ function PlaylistPage() {
     return () => isMounted = false
   }, [playlist?.songs])
 
-  return (
-    <div className="playlistpage">
-      {playlist ? (
-        <>
-          <h1 className="page__title">Listen to <span>music</span>.</h1>
-          <section className='playlistpage__top'>
-            <div className="playlistpage__top__image">
-              <img src="/music-player-react/assets/icons/disc.svg" alt={playlist.title} />
-              <div className='playlistpage__top__image__playbutton'>
-                <PlayButton handler={handlePlayPlaylist}/>
-              </div>
+  useEffect(() => {
+    if (shouldUpdate) {
+      setShouldUpdate(false)
+    } 
+  }, [shouldUpdate])
+
+  const handlePlayPlaylist = () => {
+    if (!playlist || songs.length === 0) return
+    
+    const data = {
+      ...playlist,
+      songs: songs
+    }
+    
+    handlePlayThePlaylist(data)
+  }
+
+  const handleToggleEditPlaylistModal = () => {
+    if (playlist.createdBy !== auth.uid) return
+    if (isEditPlaylistModalOpen) {
+      setShouldUpdate(true)
+    }
+    setIsEditPlaylistModalOpen(state => !state)
+  }
+
+  return (playlist ? (
+      <div className="playlistpage">
+        {isEditPlaylistModalOpen && <EditPlaylistModal toggleEditPlaylistModal={handleToggleEditPlaylistModal} playlist={playlist}/>}
+        <h1 className="page__title">Listen to <span>music</span>.</h1>
+        <section className='playlistpage__top'>
+          <div className="playlistpage__top__image">
+            <img src={playlist.photoUrl ? playlist.photoUrl : "/music-player-react/assets/icons/disc.svg"} alt={playlist.title} />
+            <div className='playlistpage__top__image__playbutton'>
+              <PlayButton handler={handlePlayPlaylist}/>
             </div>
-            <div className='playlistpage__top__info'>
-              <h2>{playlist.title}</h2>
-              <p>{author ? author.name : ''} | {songs.length} songs</p>
+          </div>
+          <div className='playlistpage__top__info'>
+            <h2 onClick={handleToggleEditPlaylistModal}>{playlist.title}</h2>
+            <p>{author ? author.name : ''} | {songs.length} songs</p>
+          </div>
+        </section>
+        <hr />
+        <section className='playlistpage__songs'>
+          <h2><span>Songs</span> in the playlist:</h2>
+          {songs.length === 0 ? (
+            <span>This playlist does not currently contain any songs.</span>
+          ) : (
+            <div className='playlistpage__songs__list'>
+              {songs.map((song, index) => (
+                <SongInRow 
+                index={index + 1}
+                song={song} 
+                key={song.id} 
+                bgLight={true}
+                onClick={() => handlePlayThePlaylistWithSong({...playlist, songs: songs}, index)}
+                />
+              ))}
             </div>
-          </section>
-          <hr />
-          <section className='playlistpage__songs'>
-            <h2><span>Songs</span> in the playlist:</h2>
-            {songs.length === 0 ? (
-              <span>This playlist does not currently contain any songs.</span>
-            ) : (
-              <div className='playlistpage__songs__list'>
-                {songs.map((song, index) => (
-                  <SongInRow 
-                  index={index + 1}
-                  song={song} 
-                  key={song.id} 
-                  bgLight={true}
-                  onClick={() => handlePlayThePlaylistWithSong({...playlist, songs: songs}, index)}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        </>
-      ) : (
-        <Loader/>
-      )}
-    </div>
-    // <div className="playlistpage">
-    //   {playlist ? (
-    //     <>
-    //       <div className='playlistpage__info'>
-    //         <h1>{playlist.title}</h1>
-    //         <div className='playlistpage__info__details'>
-    //           <div onClick={playThePlaylist} className='playlistpage__info__details__authorimage'>
-    //             <img src={author && author.profileUrl} alt={"Author"}/>
-    //           </div>
-    //           <span>{author && author.name}</span>
-    //           <div className='playlistpage__info__details__circle'></div>
-    //           <span>{playlist.songs.length}</span>
-    //         </div>
-    //       </div>
-    //       <div className='playlistpage__songs'>
-    //         {/* {songs.map((song) => (
-    //           <SongRow key={song.id} song={song}/>
-    //         ))} */}
-    //       </div>
-    //     </>
-    //   ) : (
-    //     <span>Something went wrong with fetching data!</span>
-    //   )}
-    // </div>
-  );
+          )}
+        </section>
+      </div>
+    ) : <Loader/>)
 }
 
 export default PlaylistPage;

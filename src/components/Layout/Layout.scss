@@ -5,6 +5,8 @@
   flex-direction: column;
   overflow: hidden;
   &__main {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     overflow-y: scroll;
     scrollbar-color: #00a2ff6e rgba(255, 255, 255, 0);

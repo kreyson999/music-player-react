@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
 import { useAuth } from '../../contexts/AuthContext'
+import { useUser } from "../../contexts/UserContext";
 import { addSongToPlaylist, createPlaylist, getUserPlaylists } from "../../services/database";
 
 import "./PlaylistModal.scss"
 
 const PlaylistModal = ({ togglePlaylistModal, songId }) => {
   const { uid } = useAuth()
+  const { forceRerender } = useUser()
   const [playlists, setPlaylists] = useState([])
   const [shouldUpdate, setShouldUpdate] = useState(true)
   const [canHaveMorePlaylists, setCanHaveMorePlaylists] = useState(false)
@@ -20,6 +22,7 @@ const PlaylistModal = ({ togglePlaylistModal, songId }) => {
     // we should just update user playlists
     if (isCompleted === true) {
       setShouldUpdate(true)
+      forceRerender()
     }
   }
 

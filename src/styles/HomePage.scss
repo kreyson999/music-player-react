@@ -1,4 +1,5 @@
 .homepage {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   &__sectiontitle {
@@ -33,14 +34,21 @@
       margin-left: 1rem;
     }
     &__recentsongs {
-      padding: 0.5rem 1rem 0.5rem 1rem;
+      padding: 0 1rem;
     }
   }
 }
 @media screen and (min-width: 1100px) {
   .homepage {
+    &__sectiontitle {
+      margin-left: 1.75rem;
+    }
     &__recentsongs {
       grid-template-columns: repeat(3, 1fr);
+    }
+    &__recentsongs {
+      margin-bottom: 0.75rem;
+      padding: 0 1.75rem;
     }
   }
 }

@@ -5,42 +5,38 @@ import { logout } from '../../services/auth'
 import { useUser } from "../../contexts/UserContext";
 
 import './Navbar.scss'
-import { useAuth } from "../../contexts/AuthContext";
 import { getUserPlaylists } from "../../services/database";
 
 const Navbar = ({isOpen, onClick}) => {
   const [playlists, setPlaylists] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   const user = useUser()
-  const userAuth = useAuth()
 
   useEffect(() => {
     let isMounted = true
-    if (user && userAuth?.uid) {
+    if (user?.uid) {
       async function getUserPlaylistsFromDatabase() {
-        const playlistsFromDatabase = await getUserPlaylists(userAuth.uid)
+        const playlistsFromDatabase = await getUserPlaylists(user.uid)
         if (isMounted) {
           setPlaylists(playlistsFromDatabase)
-          setIsLoading(false)
         }
       }
       getUserPlaylistsFromDatabase()
     }
     return () => isMounted = false
-  }, [user, userAuth?.uid])
+  }, [user])
 
   const handleSignOut = async () => {
     await logout()
   }
 
-  return isLoading ? null : (
+  return (
     <nav 
     className={`navbar ${isOpen ? 'navbar--open' : ''}`}
     onClick={onClick}
     >
       <div className="navbar__container">
         <div className="navbar__container__links">
-          <Link to={"/"} className={"navbar__container__links__link"}>
+          <Link to={"/"} onClick={() => user.forceRerender()} className={"navbar__container__links__link"}>
             <img src="/music-player-react/assets/icons/home.svg" alt="Home" />
           </Link>
         </div>
@@ -59,7 +55,7 @@ const Navbar = ({isOpen, onClick}) => {
           <button className="navbar__container__settings__volume">
             <img src="/music-player-react/assets/icons/volume.svg" alt="Change Volume" />
           </button>
-          {user.profileUrl && (
+          {user?.profileUrl && (
             <div onClick={handleSignOut} className="navbar__container__settings__avatar">
               <img src={user.profileUrl} alt="Profile" />
             </div>

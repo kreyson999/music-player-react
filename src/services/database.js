@@ -112,11 +112,19 @@ export async function addSongToPlaylist(playlist, songId) {
 
   return updateDoc(doc(db, PLAYLIST_COLLECTION, playlist.id), data)
 }
+export async function updatePlaylist({title, photoUrl, id}) {
+  const data = {
+    title: title,
+    photoUrl: photoUrl ?? null,
+  }
+
+  return updateDoc(doc(db, PLAYLIST_COLLECTION, id), data)
+}
 
 export async function getPlaylistById(id) {
   const playlistDoc = await getDoc(doc(db, PLAYLIST_COLLECTION, id))
 
-  return playlistDoc.data()
+  return {...playlistDoc.data(), id: playlistDoc.id}
 }
 
 

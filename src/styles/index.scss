@@ -53,3 +53,8 @@ a {
     margin: 1rem;
   }
 }
+@media screen and (min-width: 1100px) {
+  .page__title {
+    margin: 1rem 1.75rem;
+  }
+}

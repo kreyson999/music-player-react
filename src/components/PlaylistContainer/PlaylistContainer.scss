@@ -61,3 +61,10 @@
     }
   }
 }
+@media screen and (min-width: 1100px) {
+  .playlistcontainer {
+    &:first-child {
+      margin-left: 1.75rem;
+    }
+  }
+}

@@ -113,10 +113,15 @@ export function MusicProvider({children}) {
       const currentPlaylistSongs = [...currentPlaylist.songs]
       const nextSongInThePlaylist = currentPlaylistSongs.shift()
 
-      setCurrentPlaylist(state => ({
-        ...state,
-        songs: currentPlaylistSongs
-      }))
+      if (currentPlaylistSongs.length === 0) {
+        setCurrentPlaylist(null)
+      } else {
+        setCurrentPlaylist(state => ({
+          ...state,
+          songs: currentPlaylistSongs
+        }))
+      }
+
       setHistory([...history, currentSong])
       setCurrentSong(nextSongInThePlaylist)
     }
@@ -217,6 +222,14 @@ export function MusicProvider({children}) {
 
   useEffect(() => {
     if (currentSong) {
+      if (window.localStorage.getItem('recentsongs') === null) {
+        window.localStorage.setItem('recentsongs', JSON.stringify([currentSong]))
+      } else {
+        const recentSongs = JSON.parse(window.localStorage.getItem('recentsongs'))
+        if (recentSongs.find((obj) => obj.id === currentSong.id) === undefined) {
+          window.localStorage.setItem('recentsongs', JSON.stringify([currentSong, ...recentSongs.slice(0, 5)]))
+        }
+      }
       setCurrentAudio(new Audio(currentSong.url))
       setIsPlaying(true)
     }

@@ -1,0 +1,84 @@
+.editplaylistmodal {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: grid;
+  place-content: center;
+  &__container {
+    width: 85vw;
+    position: relative;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    &__iconbutton {
+      padding: 0.5rem 0.5rem 0 0.5rem;
+      width: 100%;
+      justify-content: flex-end;
+      display: flex;
+      position: relative;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    &__bottom {
+      padding: 0 0.5rem 0.5rem 0.5rem;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      &__error {
+        margin-top: 0.5rem;
+        font-size: 0.96rem;
+        color: var(--error-color);
+      }
+      &__button {
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+        display: grid;
+        place-content: end;
+      }
+      &__image {
+        overflow: hidden;
+        background-color: var(--light-gray-color);
+        border-radius: var(--default-border-radius);
+        position: relative;
+        width: 12rem;
+        height: 12rem;
+        margin-bottom: 1rem;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        &__editbutton {
+          bottom: 0.5rem;
+          right: 0.5rem;
+          position: absolute;
+          display: grid;
+          width: 2.5rem;
+          height: 2.5rem;
+          input {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+          }
+          label {
+            cursor: pointer;
+            display: grid;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .editplaylistmodal__container {
+    width: 560px;
+  }
+}

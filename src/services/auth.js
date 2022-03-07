@@ -29,7 +29,6 @@ export async function signInWithGoogle() {
     if (user.uid !== null) {
       await updateUser(user.uid, user.displayName, user.photoURL)
     }
-
     return true
   } catch (error) {
     switch(error.code) {

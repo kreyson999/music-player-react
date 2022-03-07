@@ -2,7 +2,7 @@ import { PlayButton } from '..'
 import './RecentSong.scss'
 
 const RecentSong = ({song}) => {
-  const { photoUrl, title, artists } = song
+  const { photoUrl, title } = song
 
   return (
     <div className="recentsong">
@@ -11,7 +11,6 @@ const RecentSong = ({song}) => {
       </div>
       <div className="recentsong__info">
         <span className='recentsong__info__title'>{title}</span>
-        <span className='recentsong__info__artist'>{artists[0]}</span>
       </div>
       <PlayButton/>
     </div>

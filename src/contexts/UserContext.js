@@ -1,5 +1,6 @@
+import { doc, onSnapshot } from 'firebase/firestore'
 import React, { useContext, useEffect, useState } from 'react'
-import { getUser } from '../services/database'
+import { db } from '../firebase'
 import { useAuth } from './AuthContext'
 
 const UserContext = React.createContext()
@@ -9,26 +10,27 @@ export function useUser() {
 }
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState()
   const userAuth = useAuth()
+  const [user, setUser] = useState(null)
+  const [shouldRerender, setShouldRerender] = useState(false)
 
   useEffect(() => {
-    let isMounted = true
-    async function getUserData() {
-      if (userAuth?.uid) {
-        const data = await getUser(userAuth.uid)
-        if (isMounted) {
-          setUser(data)
-        }
-      }
+    let unsub = null
+    if (userAuth.uid) {
+      unsub = onSnapshot(doc(db, "users", userAuth.uid), (doc) => {
+        setUser({...doc.data(), uid: userAuth.uid})
+      })
     }
-    getUserData()
-    return () => isMounted = false
-  }, [userAuth?.uid])
 
+    return unsub
+  }, [userAuth.uid])
+
+  const forceRerender = () => {
+    setShouldRerender(state => !state)
+  }
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{...user, forceRerender, shouldRerender}}>
       {children}
     </UserContext.Provider>
   )
