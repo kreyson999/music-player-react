@@ -16,14 +16,14 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     let unsub = null
-    if (userAuth.uid) {
+    if (userAuth?.uid) {
       unsub = onSnapshot(doc(db, "users", userAuth.uid), (doc) => {
         setUser({...doc.data(), uid: userAuth.uid})
       })
     }
 
     return unsub
-  }, [userAuth.uid])
+  }, [userAuth?.uid])
 
   const forceRerender = () => {
     setShouldRerender(state => !state)

@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 
 import { logout } from '../../services/auth'
 import { useUser } from "../../contexts/UserContext";
-
-import './Navbar.scss'
 import { getUserPlaylists } from "../../services/database";
+
+import { ProgressBar } from '../'
+import './Navbar.scss'
+import { useMusic } from "../../contexts/MusicContext";
 
 const Navbar = ({isOpen, onClick}) => {
   const [playlists, setPlaylists] = useState([])
   const user = useUser()
+  const { currentSong, handleSettingVolume } = useMusic()
 
   useEffect(() => {
     let isMounted = true
@@ -47,13 +50,20 @@ const Navbar = ({isOpen, onClick}) => {
             to={`/playlist/${playlist.id}`} 
             key={playlist.id}
             className={"navbar__container__playlists__link"}>
-              <img src="/music-player-react/assets/icons/music.svg" alt="Playlist" />
+              <img src={playlist.photoUrl ? playlist.photoUrl : "/music-player-react/assets/icons/music.svg"} alt="Playlist" />
             </Link>
           ))}
         </div>
         <div className="navbar__container__settings">
           <button className="navbar__container__settings__volume">
             <img src="/music-player-react/assets/icons/volume.svg" alt="Change Volume" />
+            <div className="navbar__container__settings__volume__progressbar">
+              <ProgressBar
+              value={currentSong.volume * 100} 
+              maxValue={100} 
+              onChange={(e) => handleSettingVolume(e.target.value / 100)}
+              />
+            </div>
           </button>
           {user?.profileUrl && (
             <div onClick={handleSignOut} className="navbar__container__settings__avatar">
