@@ -1,3 +1,14 @@
+# Music Player Website built only for educational purposes.
+
+## Tools
+
+- React
+- Firebase
+- BEM CSS
+- Sass
+
+## Demo [CLICK](https://kreyson999.github.io/music-player-react/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
