@@ -90,7 +90,7 @@ function SignUpPage() {
           <Button 
             onClick={handleSignUp}
             isPrimary={true}
-            text={"Sign Up"} 
+            text={"Sign In"} 
           />
           <Button 
             onClick={handleLoginWithGoogle}
